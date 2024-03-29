@@ -12,8 +12,11 @@
 ## How to use it?
 
 0. Make sure you have [Asphyxia CORE](https://asphyxia-core.github.io/) installed.
-1. ~~Go to [Releases](https://github.com/asphyxia-core/plugins/releases) page.~~ Just clone the repo
+
+2. ~~Go to [Releases](https://github.com/asphyxia-core/plugins/releases) page.~~ Just clone the repo
+
 ~~2. Download the latest source code.~~
+
 ~~3~~ 2. Extract the code in Asphyxia CORE's `plugins` folder.
 
 ## How do I contribute?
@@ -23,7 +26,9 @@
 ~~I'll do my best to merge PR, but please make sure you are submitting code targeted for "public" releases. (Unless it is some ancient rare stuff and you feel generous enough to provide support for it)~~
 
 ~~- For new plugins: please use `@asphyxia` identifier for your plugin since you are submitting code as the community.~~
+
 ~~- This way we prevent third-party plugins (e.g. `popn` or `popn@someoneelse`) from conflicting with our database.~~
+
 ~~- For existing plugins: please inlude a changelog in your PR so it is easier for me to tell what it is for.~~
 
 you dont. (unless you really want to)
