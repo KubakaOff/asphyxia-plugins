@@ -7,6 +7,7 @@
 - sol (solc.) - Original IIDX Plugin for IIDX 27
 - Unknown - Original IIDX Plugin for IIDX 28-31
 - duel0213 - Original IIDX Plugin for IIDX 15-26
+- RoxCian - Reflec Beat
 - rest is maintained by the community
 
 ## How to use it?
