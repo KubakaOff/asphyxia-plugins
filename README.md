@@ -10,6 +10,80 @@
 - RoxCian - Reflec Beat
 - rest is maintained by the community
 
+## Supported versions
+### beatmania IIDX (15-26 not merged yet)
+- beatmania IIDX 15 DJ TROOPERS
+- beatmania IIDX 16 EMPRESS
+- beatmania IIDX 17 SIRIUS
+- beatmania IIDX 18 Resort Anthem
+- beatmania IIDX 19 Lincle
+- beatmania IIDX 20 tricoro
+- beatmania IIDX 21 SPADA
+- beatmania IIDX 22 PENDUAL
+- beatmania IIDX 23 copula
+- beatmania IIDX 24 SINOBUZ
+- beatmania IIDX 25 CANNON BALLERS
+- beatmania IIDX 26 ROOTAGE
+- beatmania IIDX 27 HEROIC VERSE
+- beatmania IIDX 28 BISTROVER
+- beatmania IIDX 29 CastHour
+- beatmania IIDX 30 RESIDENT
+- beatmania IIDX 31 EPOLIS
+
+### BeatStream
+- BeatStream アニムトライヴ
+
+### DanceDanceRevolution
+- DanceDanceRevolution Ace
+- DanceDanceRevolution A20
+
+### GITADORA
+- GITADORA Matixx
+- GITADORA Exchain
+- GITADORA NEX+AGE
+
+### jubeat
+- jubeat festo
+
+### Metal Gear Arcade
+- Metal Gear Arcade (no network functionality)
+
+### MUSECA
+- MUSECA 1
+- MUSECA 1/2
+
+### Nostalgia
+- Nostalgia ノスタルジア
+- Nostalgia Forte
+- Nostalgia Op.2
+
+### Hello! Pop'n Music
+- Hello! Pop'n Music
+
+### pop'n music
+- pop'n music 19 Tune Street
+- pop'n music 20 fantasia
+- pop'n music Sunny Park
+- pop'n music Lapistoria
+- pop'n music éclale
+- pop'n music Usagi to Neko to Shōnen no Yume
+- pop'n music peace
+- pop'n music Kaimei riddles
+
+### REFLEC BEAT
+- REFLEC BEAT
+- REFLEC BEAT limelight
+- REFLEC BEAT colette
+- REFLEC BEAT groovin'!! Upper
+- REFLEC BEAT VOLZZA
+- REFLEC BEAT VOLZZA 2
+- REFLEC BEAT 悠久のリフレシア
+
+### SOUND VOLTEX
+- SOUND VOLTEX EXCEED GEAR (2024022000, others are untested)
+
+
+
 ## How to use it?
 
 0. Make sure you have [Asphyxia CORE](https://asphyxia-core.github.io/) installed.
