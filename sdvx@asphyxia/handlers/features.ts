@@ -1,10 +1,8 @@
 import { Profile } from '../models/profile';
 import { MusicRecord } from '../models/music_record';
+import { Matchmaker } from '../models/matchmaker';
 import { getVersion, IDToCode, GetCounter } from '../utils';
 import { Mix } from '../models/mix';
-import { MatchingRoom } from '../models/matching';
-
-let Tracker:MatchingRoom[] = [];
 
 export const hiscore: EPR = async (info, data, send) => {
   const records = await DB.Find<MusicRecord>(null, { collection: 'music' });
@@ -15,6 +13,33 @@ export const hiscore: EPR = async (info, data, send) => {
     await DB.Find<Profile>(null, { collection: 'profile' }),
     '__refid'
   );
+
+  if (version === 1) {
+    return send.object({
+      hiscore: K.ATTR({ type: "1" }, {
+        music: _.map(
+          _.groupBy(records, r => {
+            return `${r.mid}:${r.type}`;
+          }),
+          r => _.maxBy(r, 'score')
+        ).map(r => (K.ATTR({ id: String(r.mid) }, {
+          note: (() => {
+            const notes = [];
+
+            for (let i = 1; i <= 3; i++) {
+              if (r.type !== i) continue;
+              notes.push(K.ATTR({ type: String(r.type) }, {
+                name: K.ITEM('str', profiles[r.__refid][0].name),
+                score: K.ITEM('u32', r.score)
+              }))
+            }
+
+            return notes;
+          })()
+        }))),
+      })
+    })
+  }
 
   return send.object({
     sc: {
@@ -32,14 +57,6 @@ export const hiscore: EPR = async (info, data, send) => {
         l_sq: K.ITEM('str', IDToCode(profiles[r.__refid][0].id)),
         l_nm: K.ITEM('str', profiles[r.__refid][0].name),
         l_sc: K.ITEM('u32', r.score),
-        ax_sq: K.ITEM('str', IDToCode(profiles[r.__refid][0].id)),
-        ax_nm: K.ITEM('str', profiles[r.__refid][0].name),
-        ax_sc: K.ITEM('u32', r.exscore ?? 0),
-        lx_sq: K.ITEM('str', IDToCode(profiles[r.__refid][0].id)),
-        lx_nm: K.ITEM('str', profiles[r.__refid][0].name),
-        lx_sc: K.ITEM('u32', r.exscore ?? 0),
-        avg_sc: K.ITEM('u32', r.score),
-        cr: K.ITEM('s32', 8763)
       })),
     },
   });
@@ -47,6 +64,7 @@ export const hiscore: EPR = async (info, data, send) => {
 
 export const rival: EPR = async (info, data, send) => {
   const refid = $(data).str('refid');
+  const version = parseInt(info.model.split(":")[4]);
   if (!refid) return send.deny();
 
   const rivals = (
@@ -63,7 +81,8 @@ export const rival: EPR = async (info, data, send) => {
           music: (
             await DB.Find<MusicRecord>(p.__refid, { collection: 'music' })
           ).map(r => ({
-            param: K.ARRAY('u32', [r.mid, r.type, r.score, r.exscore, r.clear, r.grade]),
+            // Changes were somehow made in the order of the field for the version 2023042500
+            param: K.ARRAY('u32', version < 2023042500 ? [r.mid, r.type, r.score, r.clear, r.grade] : [r.mid, r.type, r.score, r.exscore, r.clear, r.grade]),
           })),
         };
       })
@@ -137,60 +156,86 @@ export const loadMix: EPR = async (info, data, send) => {
   });
 };
 
-
 export const globalMatch: EPR = async (info, data, send) => {
-  const gipArr = $(data).numbers('gip');
-  const lipArr = $(data).numbers('lip');
-  const gip = gipArr.join('.');
-  const lip = lipArr.join('.');
-  const gameID = $(data).number('mid');
-
-  const filter = $(data).number('filter');
-
-  Tracker = Tracker.filter(e => Math.trunc(new Date().getTime()/1000) - e.sec <= 90)
-  
-  let curr_game_arr = Tracker.filter(e => e.filter == filter);
-  curr_game_arr = curr_game_arr.filter(e => e.gameID == gameID);
-
-  console.log(JSON.stringify(curr_game_arr,null,2))
-
-
-  let in_tracker = false;
-
-  for(const element of curr_game_arr) {
-    if(element.gip == gip){
-      in_tracker = true;
-      break;
-    }
+  let entryData: Matchmaker = {
+    collection: 'matchmaker',
+    timestamp: Date.now(),
+    c_ver: $(data).number('c_ver'),
+    p_num: $(data).number('p_num'),
+    p_rest: $(data).number('p_rest'),
+    filter: $(data).number('filter'),
+    mid: $(data).number('mid'),
+    sec: $(data).number('sec'),
+    port: $(data).number('port'),
+    gip: $(data).numbers('gip'),
+    lip: $(data).numbers('lip'),
+    claim: $(data).number('claim'),
+    entry_id: $(data).number('entry_id')
   }
 
-  if(!in_tracker){
-    let curr_game:MatchingRoom;
-    curr_game = <MatchingRoom> {
-      gameID:gameID,
-      gip:gip,
-      lip:lip,
-      sec: Math.trunc(new Date().getTime()/1000),
-      port:$(data).number('port'),
-      filter:filter
-    };
-    Tracker.push(curr_game);
-  }
-  
-  
-  console.log(JSON.stringify(Tracker,null,2))
+  let loggip = entryData.gip.join(".")
+  let loglip = entryData.lip.join(".")
 
-  let temp = {
-    entry_id: K.ITEM('u32',0),
-    entry: curr_game_arr.map(e => ({
-        gip: K.ITEM('4u8',e.gip.split('.').map(e => parseInt(e))),
-        lip: K.ITEM('4u8',e.lip.split('.').map(e => parseInt(e))),
-        port: K.ITEM('u16',e.port),
+  console.log("====================================")
+  console.log("[" + loglip + " | " + loggip + "] Searching for online match opponents")
+  console.log("[" + loglip + " | " + loggip + "] Removed " + await DB.Remove({collection:'matchmaker', timestamp: {$lt: Date.now() - 100000}}) + " expired match data.")
+  
+  if(entryData.p_rest < 1) {
+    console.log("[" + loglip + " | " + loggip + "] Room is full. Halting.")
+    return send.deny();
+  }
+
+  // console.log("   c_ver: " + entryData.c_ver)
+  // console.log("   p_num: " + entryData.p_num) // current match player count
+  // console.log("  p_rest: " + entryData.p_rest) // remaining player spaces
+  // console.log("  filter: " + entryData.filter) // game mode matchmaking filter
+  // console.log("     mid: " + entryData.mid)
+  // console.log("     sec: " + entryData.sec) // remaining seconds
+  // console.log("    port: " + entryData.port)
+  // console.log("     gip: " + entryData.gip)
+  // console.log("     lip: " + entryData.lip)
+  // console.log("   claim: " + entryData.claim)
+  // console.log("entry_id: " + entryData.entry_id)
+
+  console.log("[" + loglip + " | " + loggip + "] Adding/updating your match data")
+  if(await DB.Count({collection: 'matchmaker', lip: entryData.lip}) === 0) {
+    await DB.Upsert<Matchmaker>(
+      { collection: 'matchmaker', gip: entryData.gip, lip: entryData.lip},
+      entryData
+    )
+  } else {
+    await DB.Upsert<Matchmaker>(
+      { collection: 'matchmaker', gip: entryData.gip, lip: entryData.lip},
+      { $set: {
+          c_ver: entryData.c_ver,
+          p_num: entryData.p_num,
+          p_rest: entryData.p_rest,
+          filter: entryData.filter,
+          mid: entryData.mid,
+          sec: entryData.sec,
+          claim: entryData.claim
+        }
+      }
+    )
+  }
+
+  console.log("[" + loglip + " | " + loggip + "] Searching...")
+  let filteredDB = await DB.Find<Matchmaker>({collection: "matchmaker", entry_id: entryData.entry_id, filter: entryData.filter, $not: {lip: entryData.lip}})
+
+  let opponents = filteredDB.length === 0 ? null : {
+    entry_id: K.ITEM('u32', entryData.entry_id),
+    entry: filteredDB.map(e => ({
+      port: K.ITEM('u16', e.port),
+      gip: K.ITEM('4u8', e.gip),
+      lip: K.ITEM('4u8', e.lip)
     }))
   }
-  console.log(JSON.stringify(temp, null, 2));
-
-  send.object(temp);
-  
-
+  if(opponents !== null) {
+    console.log("[" + loglip + " | " + loggip + "] Opponent/s found.") 
+    send.object(opponents)
+  }
+  else {
+    console.log("[" + loglip + " | " + loggip + "] No found opponents.")
+    send.deny()
+  }
 }

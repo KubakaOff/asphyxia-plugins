@@ -1,68 +1,52 @@
 # SOUND VOLTEX
 
-Plugin Version: **v6.1.2**
+**Plugin Version:** fork-6.0.2.9
 
-## Provide out of box usable exprience, everything is unlocked and good to go.  
+**Supported game versions:** EXCEED GEAR (2024022000)
 
-Prerequisite CORE version: v1.50c or above
+**Unsupported game versions:** Every other game, as they're untested.
 
-Supported Versions:
+**Required Asphyxia Core version** [1.50c](https://github.com/asphyxia-core/asphyxia-core.github.io/releases/tag/v1.50)
 
-- EXCEED GEAR
+**Notes:**
+- Please be aware that this plugin and the savefile it produces are incompatible with the official plugin, or any other forks. Please be cautious of using other plugins' savefiles with this fork of the plugin, or using this fork's savefile with other plugins.
+- Before using this plugin, run the [WebUI Asset Update](/plugin/sdvx@asphyxia/update%20webui%20assets). Do this every data and plugin update.
+- Please back up your save data to prevent unwanted issues (just in case)
 
-Versions Not Supported:
 
-- BOOTH
-- INFINITE INFECTION
-- GRAVITY WARS
-- HEAVENLY HAVEN
-- VIVIDWAVE
-
-The plugin now mainly maintained versions:
-
-- EXCEED GEAR
-
-If you need support for HH and VW, use older version instead, too many new things in EG and they're messing older codes.
-
-If you want to help with the plugin, you can open pull request.
-
-This version save data is not compatible with some forks plugin, please use it with caution if you already uses an unsupported version.
-
-Remember to import asset from the game files first time when using webui.
-
-Change Log
+Changelog
 ===========
+## fork-6.0.2.9
 
-## 6.1.2
+### New:
 
-1. Hotfix for 神 skill analyzer not showing after passed.
+1. Main:
+	- Updated events.json to add weeks 4 & 5 of BPL event songs.
+	- Added Premium Generator (Nekomata Okayu) set.
+	- Updated licensed songs list (Okayu songs)
+2. Misc:
+	- Added crew id 149 to CHARACTER_IGNORE_DISABLE
+	- Tweaked Premium Generator odds (1% chance for a crew is a bit unfair lol, changed to 5%)
 
-## 6.1.1
 
-1. Support EG version up to 2023091200.
-2. Added ability to select Main Screen Background.
+## fork-6.0.2.8d
 
-## 6.1.0
+### New:
 
-1. Support EG version up to 2023053001.
-2. Support Global Matching function, this will only work with the port opened or under same subnet.
-3. Support Arena, since the plugin unlocks everything, Arena Point(AP) will not be saved.
-4. Added support for import asset from game directly to webui usage, this function is still is testing phase, which may cause some problem, use it with caution.
-5. Added function to edit the unlock song count, which is editable from webui, defaulted to 2200.
-6. Temporarily support Valkyrie Generator, but since webui is able to change everything, the data won't be saved but you can do as much gacha as you want.
-7. Remove support for versions other than EG.
+1. Main:
+	- Updated events.json to add startup flags for Valentines Day 2024 and White Day 2024.
 
-## 6.0.0
 
-1. Plugin version now follows the pattern (MAX SDVX VER,Plugin VER of supporting the MAX version of SDVX,hotfix).
-2. Initial support for EXCEED GEAR.
+## fork-6.0.2.8c
 
-## 1.1
+### New:
 
-1. Support VIVIDWAVE
+1. Main:
+	- Updated events.json to enable this week's BPL S3 SDVX songs unlock event, and the Triple Tribe songs.
 
-TODO
-===========
 
-This is confirmed need to use addition library, and need more time to do the core update.
-- Convert BGM directly using pure nodejs without any additional library. 
+### Todo:
+
+1. Figure out how to use image (png) files to appear in information/news popup.
+2. More work on online matchmaking (globalMatch.) I can't seem to make clients establish a connection.
+

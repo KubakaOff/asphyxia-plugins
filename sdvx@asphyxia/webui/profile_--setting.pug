@@ -1,22 +1,31 @@
 //DATA//
   profile: DB.FindOne(refid, { collection: 'profile' })
 
+  items_crew: DB.Find(refid, {$or:[{collection:"item",type:11,id:117}, {collection:"item",type:11,id:119}, {collection:"item",type:11,id:120}, {collection:"item",type:11,id:121}, {collection:"item",type:11,id:124}, {collection:"item",type:11,id:129}]})
+
+  items_stamp: DB.Find(refid, { collection:"item", type:17 })
+
+  items_subbg: DB.Find(refid, { collection:"item", type:18 })
+
+  items_bgm: DB.Find(refid, { collection:"item", type:19 })
+
+  items_nemsys: DB.Find(refid, { collection:"item", type:20 })
+
+  items_sysbg: DB.Find(refid, { collection: "item", type:21 })
+
+  valgene_tickets: DB.FindOne(refid, { collection: "valgene_ticket" })
+
+  courses: DB.Find(refid, {collection: "course"})
+  
+  skill: DB.Find(refid, {collection: "skill"})
+
+  unlock_all: U.GetConfig('unlock_all_valk_items')
+
 -
   const padded = _.padStart(profile.id.toString(), 8);
   const sdvxid = `${padded.slice(0, 4)}-${padded.slice(4)}`;
 
 link(rel="stylesheet" href="static/asset/css/profile.css")
-.uiblocker
-  .lds-roller
-    div 
-    div 
-    div 
-    div 
-    div 
-    div 
-    div 
-    div 
-    p#loading_text Loading...
 div
   .card
     .card-header
@@ -26,22 +35,14 @@ div
         | Settings
     .card-content
       form(method="post" action="/emit/updateProfile")
-        //- .field
+        .field
           label.label ID
           .control
             input.input(type="text" name="refid", value=refid readonly)
-        //- .field
+        .field
           label.label SDVX ID
           .control
             input.input(type="text" name="sdvxid", value=sdvxid readonly)
-        input.input(type="hidden" name="refid", value=refid readonly)
-        input.input(type="hidden" name="sdvxid", value=sdvxid readonly)
-        label.label ID 
-          .box #{refid} 
-        label.label SDVX ID 
-          .box #{sdvxid}
-
-
         .field
           label.label Name
           .control
@@ -56,43 +57,34 @@ div
           .control
             input.input(type="number" step=1 name="appeal", placeholder=profile.appeal)
         .field
-          label.label Akaname
+          label.label Skill Title
+            span.icon.has-tooltip-right(data-tooltip="Changes the title displayed on your skill plate.")
+              i.mdi.mdi-help-circle
+          .control.is-expanded 
+                  .select.is-fullwidth
+                    select(name="skilltitle" id="skilltitle_select")
+        .field
+          label.label Appeal Title
             span.icon.has-tooltip-right(data-tooltip="Custom is set as ID 50000, if you want to use custom, please make sure you add the entry to the xml file.")
               i.mdi.mdi-help-circle
           .control.is-expanded 
-            .select.is-fullwidth
-              select(name="akaname" id="akaname_select")
+                  .select.is-fullwidth
+                    select(name="akaname" id="akaname_select")
+          //.control
+            input.input(type="number" step=1 name="akaname", placeholder=profile.akaname)//
         .field
-          label.label Appeal Frame
+          label.label BPL Team Supporter
           .control.is-expanded 
-            .select.is-fullwidth
-              select(name="appeal_frame" id="appeal_frame")
-                option(value="0") Default
-                option(value="2") TRACK CREATOR
-                option(value="3") JACKET ARTIST
-                option(value="4") APPEAL CARD ARTIST
-                option(value="5") BEMANI ARTISE
-                option(value="6") SDVX STAFF
-                option(value="7") FEATURED ARTIST
-                option(value="8") GENESIS CARD ARTIST
-                option(value="9") KAC FINALIST(RED)
-                option(value="10") KAC FINALIST(BLUE)
+                  .select.is-fullwidth
+                    select(name="bplSupport" id="bplsupport_select")
         .field
-          label.label Support Team
+          label.label Valgene Tickets
+            span.icon.has-tooltip-right(data-tooltip="Number of tickets you can use to buy Valkyrie Generator Items, instead of PASELI or credits.")
+              i.mdi.mdi-help-circle
           .control.is-expanded 
-            .select.is-fullwidth
-              select(name="support_team" id="support_team")
-                option(value="0") No Team 
-                option(value="1") APINA VRAMeS
-                option(value="2") GiGO
-                option(value="3") GAME PANIC
-                option(value="4") SILK HAT
-                option(value="5") SUPER NOVA Tohoku
-                option(value="6") TAITO STATION Tradz
-                option(value="7") ROUND1
-                option(value="8") LEISURELAND
+            input.input(type="number" name="valgeneTicket" id="valgeneticket_select")
         br
-        div(style="font-size:26px;font-weight:bold;vertical-align:top;") EXCEED GEAR VALKYRIE GENERATOR CUSTOMIZATION
+        div(style="font-size:26px;font-weight:bold;vertical-align:top; overflow-wrap: break-word;word-break: break-all;") EXCEED GEAR VALKYRIE GENERATOR CUSTOMIZATION
           .tile.is-ancestor
             .tile.is-parent.is-6
               .tile.is-child(style="vertical-align: top;")
@@ -122,7 +114,12 @@ div
                       select(name="bgm")
                     //input.input(type="number" step=1 name="bgm", placeholder=profile.bgm)
                 .field
-                  label.label AStamp
+                  label.label System Background
+                  .control
+                    .select.is-fullwidth
+                      select(name="sysBG" id="sysbg_select")
+                .field
+                  label.label FX-L A Stamp
                     //span.icon.has-tooltip-right(data-tooltip="Check \"data/graphics/chat_stamp\" 000X_0Y => 4*(X-1)+Y=StampID stamp_0000_01~04 is not usable!!!")
                       i.mdi.mdi-help-circle
                   .control
@@ -130,7 +127,7 @@ div
                       select(name="stampA")
                     //input.input(type="number" step=1 name="stampA", placeholder=profile.stampA)
                 .field
-                  label.label BStamp
+                  label.label FX-L B Stamp
                     //span.icon.has-tooltip-right(data-tooltip="Check \"data/graphics/chat_stamp\" 000X_0Y => 4*(X-1)+Y=StampID stamp_0000_01~04 is not usable!!!")
                       i.mdi.mdi-help-circle
                   .control
@@ -138,7 +135,7 @@ div
                       select(name="stampB")
                     //input.input(type="number" step=1 name="stampB", placeholder=profile.stampB)
                 .field
-                  label.label CStamp
+                  label.label FX-L C Stamp
                     //span.icon.has-tooltip-right(data-tooltip="Check \"data/graphics/chat_stamp\" 000X_0Y => 4*(X-1)+Y=StampID stamp_0000_01~04 is not usable!!!")
                       i.mdi.mdi-help-circle
                   .control
@@ -146,51 +143,46 @@ div
                       select(name="stampC")
                     //input.input(type="number" step=1 name="stampC", placeholder=profile.stampC)
                 .field
-                  label.label DStamp
+                  label.label FX-L D Stamp
                     //span.icon.has-tooltip-right(data-tooltip="Check \"data/graphics/chat_stamp\" 000X_0Y => 4*(X-1)+Y=StampID stamp_0000_01~04 is not usable!!!")
                       i.mdi.mdi-help-circle
                   .control
                     .select.is-fullwidth
                       select(name="stampD")
                     //input.input(type="number" step=1 name="stampD", placeholder=profile.stampD)
+
                 .field
-                  label.label AStamp_R
+                  label.label FX-R A Stamp
                     //span.icon.has-tooltip-right(data-tooltip="Check \"data/graphics/chat_stamp\" 000X_0Y => 4*(X-1)+Y=StampID stamp_0000_01~04 is not usable!!!")
                       i.mdi.mdi-help-circle
                   .control
                     .select.is-fullwidth
-                      select(name="stampA_R")
-                    //input.input(type="number" step=1 name="stampA", placeholder=profile.stampA)
+                      select(name="stampRA")
+                    //input.input(type="number" step=1 name="stampRA", placeholder=profile.stampRA)
                 .field
-                  label.label BStamp_R
+                  label.label FX-R B Stamp
                     //span.icon.has-tooltip-right(data-tooltip="Check \"data/graphics/chat_stamp\" 000X_0Y => 4*(X-1)+Y=StampID stamp_0000_01~04 is not usable!!!")
                       i.mdi.mdi-help-circle
                   .control
                     .select.is-fullwidth
-                      select(name="stampB_R")
-                    //input.input(type="number" step=1 name="stampB", placeholder=profile.stampB)
+                      select(name="stampRB")
+                    //input.input(type="number" step=1 name="stampRB", placeholder=profile.stampRB)
                 .field
-                  label.label CStamp_R
+                  label.label FX-R C Stamp
                     //span.icon.has-tooltip-right(data-tooltip="Check \"data/graphics/chat_stamp\" 000X_0Y => 4*(X-1)+Y=StampID stamp_0000_01~04 is not usable!!!")
                       i.mdi.mdi-help-circle
                   .control
                     .select.is-fullwidth
-                      select(name="stampC_R")
-                    //input.input(type="number" step=1 name="stampC", placeholder=profile.stampC)
+                      select(name="stampRC")
+                    //input.input(type="number" step=1 name="stampRC", placeholder=profile.stampRC)
                 .field
-                  label.label DStamp_R
+                  label.label FX-R D Stamp
                     //span.icon.has-tooltip-right(data-tooltip="Check \"data/graphics/chat_stamp\" 000X_0Y => 4*(X-1)+Y=StampID stamp_0000_01~04 is not usable!!!")
                       i.mdi.mdi-help-circle
                   .control
                     .select.is-fullwidth
-                      select(name="stampD_R")
-                    //input.input(type="number" step=1 name="stampD", placeholder=profile.stampD)
-                .field
-                  label.label Main BG
-                  .control
-                    .select.is-fullwidth
-                      select(name="mainbg")
-                    //input.input(type="number" step=1 name="stampD", placeholder=profile.stampD)
+                      select(name="stampRD")
+                    //input.input(type="number" step=1 name="stampRD", placeholder=profile.stampRD)
                 .field
                   button.button.is-primary(type="submit") 
                     span.icon
@@ -199,73 +191,79 @@ div
             .tile.is-vertical(style="vertical-aling:top;font-size:1rem;font-weight:700;") 
               .tile 
                 .tile.is-parent
-                  .tile.is-child.with_relative 
+                  .tile.is-child
                     p Nemsys Preview
-                    img(src='static/asset/nemsys/nemsys_0000.png' id="nemsys_pre")
-                    img(src='static/asset/nemsys/nemsys_0000.png' id="nemsys_pre_fade")
+                    img(src='static/asset/nemsys/nemsys_0000_i_eeb.png' id="nemsys_pre")
                 .tile.is-parent
-                  .tile.is-child.with_relative
+                  .tile.is-child
                     p Submonitor Preview
-                    img(src='static/asset/submonitor_bg/subbg_0000.png' id="sub_pre")
-                    img(src='static/asset/submonitor_bg/subbg_0000.png' id="sub_pre_fade")
-                    video(id='sub_video_pre' style='display:none;')
+                    img(src='static/asset/submonitor_bg/subbg_0001.jpg' id="sub_pre")
+                    video(id="sub_pre_vid" controls preload="auto")
+                      source(id="sub_pre_vid_src")
               .tile 
                 .tile.is-parent.btm
-                  .tile.is-child.with_relative
-                    p A
+                  .tile.is-child
+                    p FX-L A
                     img(src='static/asset/nostamp.png' id="a_pre")
-                    img(src='static/asset/nostamp.png' id="a_pre_fade")
                 .tile.is-parent.btm
-                  .tile.is-child.with_relative
-                    p B
+                  .tile.is-child
+                    p FX-L B
                     img(src='static/asset/nostamp.png' id="b_pre")
-                    img(src='static/asset/nostamp.png' id="b_pre_fade")
                 .tile.is-parent.btm
-                  .tile.is-child.with_relative
-                    p C
+                  .tile.is-child
+                    p FX-L C
                     img(src='static/asset/nostamp.png' id="c_pre")
-                    img(src='static/asset/nostamp.png' id="c_pre_fade")
                 .tile.is-parent.btm
-                  .tile.is-child.with_relative
-                    p D
+                  .tile.is-child
+                    p FX-L D
                     img(src='static/asset/nostamp.png' id="d_pre")
-                    img(src='static/asset/nostamp.png' id="d_pre_fade")
               .tile 
                 .tile.is-parent.btm
-                  .tile.is-child.with_relative
-                    p A_R
-                    img(src='static/asset/nostamp.png' id="ar_pre")
-                    img(src='static/asset/nostamp.png' id="ar_pre_fade")
+                  .tile.is-child
+                    p FX-R A
+                    img(src='static/asset/nostamp.png' id="ra_pre")
                 .tile.is-parent.btm
-                  .tile.is-child.with_relative
-                    p B_R
-                    img(src='static/asset/nostamp.png' id="br_pre")
-                    img(src='static/asset/nostamp.png' id="br_pre_fade")
+                  .tile.is-child
+                    p FX-R B
+                    img(src='static/asset/nostamp.png' id="rb_pre")
                 .tile.is-parent.btm
-                  .tile.is-child.with_relative
-                    p C_R
-                    img(src='static/asset/nostamp.png' id="cr_pre")
-                    img(src='static/asset/nostamp.png' id="cr_pre_fade")
+                  .tile.is-child
+                    p FX-R C
+                    img(src='static/asset/nostamp.png' id="rc_pre")
                 .tile.is-parent.btm
-                  .tile.is-child.with_relative
-                    p D_R
-                    img(src='static/asset/nostamp.png' id="dr_pre")
-                    img(src='static/asset/nostamp.png' id="dr_pre_fade")
-              .tile 
-                .tile.is-parent.btm
-                  .tile 
-                    .tile.is-child(id='bgm_pre')
-                      span BGM preview
-                      audio(controls style="display:none;" src='static/asset/audio/custom_00/0.mp3' type='audio/mp3' id='custom_0')
-                    .tile.is-child(id='sel_pre')
-                      span Song selection preview
-                      audio(controls style="display:none;" src='static/asset/audio/custom_00/1.mp3' type='audio/mp3' id='custom_1')
+                  .tile.is-child
+                    p FX-R D
+                    img(src='static/asset/nostamp.png' id="rd_pre")
+              .tile.is-parent.is-vertical(id='bgm_pre')
+                p BGM preview
+                audio(controls style="width:100%;display:none;" src='static/asset/audio/custom_00/0.mp3' type='audio/mp3' id='custom_0' loop)
+              .tile.is-parent.is-vertical(id='sel_pre')
+                p Song selection preview
+                audio(controls style="width:100%;display:none;" src='static/asset/audio/custom_00/1.mp3' type='audio/mp3' id='custom_1')
               .tile.is-parent.is-vertical
-                .tile.is-child(id='mainbg_pre')
-                  p Main BG Preview
-                  
-video(id='mainbg_video_pre')
-
-                  
+                article.tile.is-child
+                  .content(style="color:#696969;overflow-wrap: break-word;word-break: break-all;") 
+                    | For Heavenly model original and AprilFool nemsys, you'll have to edit 
+                    br
+                    | /data/others/custom_nemsys.xml, and put the heavenly model texture in 
+                    br
+                    | /data_mods/omnimix/graphics/ver06/psd_nemsys_ifs/nemsys_0011_i_eeb.png
+                    br
+                    | (You can right-click preview to save the texture) 
+                    br
+                    | THIS IS SELF-PHOTOSHOP TEXTURE, NOT OFFICIAL
+                .tild.is-child
+                  a(href="static/asset/nemsys/custom_nemsys.xml" download="custom_nemsys.xml") custom_nemsys.xml download
 div(hidden id='data-pass') !{JSON.stringify(profile)}
+div(hidden id='data-pass-crew') !{JSON.stringify(items_crew)}
+div(hidden id='data-pass-stamp') !{JSON.stringify(items_stamp)}
+div(hidden id='data-pass-subbg') !{JSON.stringify(items_subbg)}
+div(hidden id='data-pass-bgm') !{JSON.stringify(items_bgm)}
+div(hidden id='data-pass-nemsys') !{JSON.stringify(items_nemsys)}
+div(hidden id='data-pass-sysbg') !{JSON.stringify(items_sysbg)}
+div(hidden id='data-pass-valgeneticket') !{JSON.stringify(valgene_tickets)}
+div(hidden id='data-pass-courses') !{JSON.stringify(courses)}
+div(hidden id='data-pass-skill') !{JSON.stringify(skill)}
+div(hidden id='data-pass-unlock-all') !{unlock_all}
 script(src="static/asset/js/preview.js") 
+script(src="https://vjs.zencdn.net/8.5.2/video.min.js")

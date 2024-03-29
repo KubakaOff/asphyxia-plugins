@@ -29,10 +29,13 @@ game
   kac_id(__type="str") #{name}
 
   skill_level(__type="s16") #{skill.level}
-  skill_type(__type="s16") #{skill.stype}
   skill_base_id(__type="s16") #{skill.base}
   skill_name_id(__type="s16") #{skill.name}
-  
+  skill_type(__type="s16") #{skill.type !== undefined ? skill.type : 0}
+
+  if bplSupport
+    support_team_id(__type="s32") #{bplSupport}
+
   ea_shop
     packet_booster(__type="s32") 1
     if version < 5
@@ -52,9 +55,9 @@ game
       course
         ssnid(__type="s16") #{course.sid}
         crsid(__type="s16") #{course.cid}
-        st(__type="s16") #{course.skill_type}
+        st(__type="s16") #{course.stype !== undefined ? course.stype : 0}
         sc(__type="s32") #{course.score}
-        ex(__type="s32") #{course.exscore}
+        ex(__type="s32") #{course.exscore !== undefined ? course.exscore : 0}
         ct(__type="s16") #{course.clear}
         gr(__type="s16") #{course.grade}
         ar(__type="s16") #{course.rate}
@@ -74,6 +77,13 @@ game
         id(__type="u32") #{song}
         param(__type="u32") 1
 
+  present
+    each item in present
+      info
+        type(__type="u8") #{item.type}
+        id(__type="u32") #{item.id}
+        param(__type="u32") #{item.param}
+
   param
     each param in params
       info
@@ -88,34 +98,24 @@ game
         id(__type="s32") #{id}
         param(__type="s32" __count="1") #{akaname}
 
-  play_count(__type="u32") 1001
-  day_count(__type="u32") 301
-  today_count(__type="u32") 21
-  play_chain(__type="u32") 31
-  max_play_chain(__type="u32") 31
-  week_count(__type="u32") 9
-  week_play_count(__type="u32") 101
-  week_chain(__type="u32") 31
-  max_week_chain(__type="u32") 31
-
-  creator_item
-    info
-      creator_type(__type="u32") #{appeal_frame}
-      item_id(__type="u32") 0
-      param(__type="u32") 0
-
-
-  arena
-    last_play_season(__type="s32") 3
-    rank_point(__type="s32") 30000
-    shop_point(__type="s32") 0
-    ultimate_rate(__type="s32") 0
-    rank_play_cnt(__type="s32") 1
-    ultimate_play_cnt(__type="s32") 1
-  
-  //- additional_info
-
-  support_team_id(__type="s32") #{support_team}
+  if playCount
+    play_count(__type="u32") #{playCount}
+  if dayCount
+    day_count(__type="u32") #{dayCount}
+  if todayCount
+    today_count(__type="u32") #{todayCount}
+  if playChain
+    play_chain(__type="u32") #{playChain}
+  if maxPlayChain
+    max_play_chain(__type="u32") #{maxPlayChain}
+  if weekCount
+    week_count(__type="u32") #{weekCount}
+  if weekPlayCount
+    week_play_count(__type="u32") #{weekPlayCount}
+  if weekChain
+    week_chain(__type="u32") #{weekChain}
+  if maxWeekChain
+    max_week_chain(__type="u32") #{maxWeekChain}
 
   if mixes
     each mix in mixes
@@ -130,4 +130,19 @@ game
         jacket_id(__type="s32") #{mix.jacket}
         tag_bit(__type="s32") #{mix.tag}
         like_flg(__type="u8") 0
-  
+
+  if arena
+    arena
+      last_play_season(__type="s32") #{arena.season !== undefined ? arena.season : 0}
+      rank_point(__type="s32") #{arena.rankPoint}
+      shop_point(__type="s32") #{arena.shopPoint}
+      ultimate_rate(__type="s32") #{arena.ultimateRate}
+      ultimate_rank_num(__type="s32") #{arena.ultimateRankNum !== undefined ? arena.ultimateRankNum : 0}
+      megamix_rate(__type="s32") #{arena.megamixRate !== undefined ? arena.megamixRate : 0}
+      rank_play_cnt(__type="s32") #{arena.rankCount}
+      ultimate_play_cnt(__type="s32") #{arena.ultimateCount}
+
+  if valgeneTicket
+    valgene_ticket
+      ticket_num(__type="s32") #{valgeneTicket.ticketNum}
+      limit_date(__type="u64") #{valgeneTicket.limitDate}

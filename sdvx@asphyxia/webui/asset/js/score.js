@@ -1,27 +1,33 @@
-let music_db;
+var music_db;
 
 function zeroPad(num, places) {
-    let zero = places - num.toString().length + 1;
+    var zero = places - num.toString().length + 1;
     return Array(+(zero > 0 && zero)).join("0") + num;
 }
 
 function getSongName(musicid) {
-    //console.log(music_db["mdb"]["music"])
-    //console.log(musicid+" "+type);
-    let result = music_db["mdb"]["music"].filter(object => object["@id"] == musicid);
+    var result = music_db["mdb"]["music"].filter(object => object["@id"] == musicid);
     if (result.length == 0) {
         return "Custom Song";
     }
     return result[0]["info"]["title_name"]
-        //console.log(result);
 }
 
+function getReleaseDate(musicid) {
+    var result = music_db["mdb"]["music"].filter(object => object["@id"] == musicid);
+    if (result.length == 0 || !('distribution_date' in result[0]['info'])) {
+        return "Unknown"
+    } 
+    return result[0]["info"]["distribution_date"]["#text"]
+}
+
+
 function getDifficulty(musicid, type) {
-    let result = music_db["mdb"]["music"].filter(object => object["@id"] == musicid);
+    var result = music_db["mdb"]["music"].filter(object => object["@id"] == musicid);
     if (result.length == 0) {
         return "NOV";
     }
-    let inf_ver = result[0]["info"]["inf_ver"]["#text"] ? result[0]["info"]["inf_ver"]["#text"] : 5;
+    var inf_ver = result[0]["info"]["inf_ver"]["#text"] ? result[0]["info"]["inf_ver"]["#text"] : 5;
     switch (type) {
         case 0:
             return "NOV";
@@ -41,32 +47,11 @@ function getDifficulty(musicid, type) {
                     case "5":
                         return "VVD";
                     case "6":
-                        return "XCD";
+                        return "XCD"
                 }
             }
         case 4:
             return "MXM";
-    }
-}
-
-function getLevel(musicid, type){
-    let result = music_db["mdb"]["music"].filter(object => object["@id"] == musicid);
-    if (result.length == 0) {
-        return 0;
-    }
-    let info = result[0]["difficulty"];
-
-    switch (type) {
-        case 0:
-            return parseInt(info["novice"]["difnum"]["#text"]);
-        case 1:
-            return parseInt(info["advanced"]["difnum"]["#text"]);
-        case 2:
-            return parseInt(info["exhaust"]["difnum"]["#text"]);
-        case 3:
-            return parseInt(info["infinite"]["difnum"]["#text"]);
-        case 4:
-            return parseInt(info["maximum"]["difnum"]["#text"]);
     }
 }
 
@@ -187,47 +172,47 @@ function gradeSort(d) {
 
 $(document).ready(function() {
     jQuery.fn.dataTableExt.oSort['diff-asc'] = function(a, b) {
-        let x = difficultySort(a);
-        let y = difficultySort(b);
+        var x = difficultySort(a);
+        var y = difficultySort(b);
 
         return ((x < y) ? -1 : ((x > y) ? 1 : 0));
     };
 
     jQuery.fn.dataTableExt.oSort['diff-desc'] = function(a, b) {
-        let x = difficultySort(a);
-        let y = difficultySort(b);
+        var x = difficultySort(a);
+        var y = difficultySort(b);
 
         return ((x < y) ? 1 : ((x > y) ? -1 : 0));
     };
 
     jQuery.fn.dataTableExt.oSort['grade-asc'] = function(a, b) {
-        let x = gradeSort(a);
-        let y = gradeSort(b);
+        var x = gradeSort(a);
+        var y = gradeSort(b);
 
         return ((x < y) ? -1 : ((x > y) ? 1 : 0));
     };
 
     jQuery.fn.dataTableExt.oSort['grade-desc'] = function(a, b) {
-        let x = gradeSort(a);
-        let y = gradeSort(b);
+        var x = gradeSort(a);
+        var y = gradeSort(b);
 
         return ((x < y) ? 1 : ((x > y) ? -1 : 0));
     };
 
     jQuery.fn.dataTableExt.oSort['clear-mark-asc'] = function(a, b) {
-        let x = markSort(a);
-        let y = markSort(b);
+        var x = markSort(a);
+        var y = markSort(b);
 
         return ((x < y) ? -1 : ((x > y) ? 1 : 0));
     };
 
     jQuery.fn.dataTableExt.oSort['clear-mark-desc'] = function(a, b) {
-        let x = markSort(a);
-        let y = markSort(b);
+        var x = markSort(a);
+        var y = markSort(b);
 
         return ((x < y) ? 1 : ((x > y) ? -1 : 0));
     };
-    let profile_data = JSON.parse(document.getElementById("data-pass").innerText);
+    var profile_data = JSON.parse(document.getElementById("data-pass").innerText);
     profile_data = profile_data.sort(function(a, b) {
         if (a.mid > b.mid) return 1;
         if (a.mid < b.mid) return -1;
@@ -238,17 +223,45 @@ $(document).ready(function() {
     //$('#music_score').DataTable();
 
     $.getJSON("static/asset/json/music_db.json", function(json) {
+        const translate_table = {
+            '龕': '€',
+            '釁': '🍄',
+            '驩': 'Ø',
+            '曦': 'à',
+            '齷': 'é',
+            '骭': 'ü',
+            '齶': '♡',
+            '彜': 'ū',
+            '罇': 'ê',
+            '雋': 'Ǜ',
+            '鬻': '♃',
+            '鬥': 'Ã',
+            '鬆': 'Ý',
+            '曩': 'è',
+            '驫': 'ā',
+            '齲': '♥',
+            '騫': 'á',
+            '趁': 'Ǣ',
+            '鬮': '¡',
+            '盥': '⚙︎',
+            '隍': '︎Ü',
+            '頽': 'ä',
+            '餮': 'Ƶ',
+            '黻': '*',
+            '蔕': 'ũ',
+            '闃': 'Ā'
+        }
         music_db = json;
-        let music_data = [];
+        var music_data = [];
 
-        
 
-        for (let i in profile_data) {
-            let temp_data = {};
+        for (var i in profile_data) {
+            var temp_data = {};
             temp_data.mid = profile_data[i].mid;
             temp_data.songname = getSongName(profile_data[i].mid);
+            temp_data.songname = temp_data.songname.replace(/[龕釁驩曦齷骭齶彜罇雋鬻鬥鬆曩驫齲騫趁鬮盥隍頽餮黻蔕闃]/g, m => translate_table[m]);
             temp_data.diff = getDifficulty(profile_data[i].mid, profile_data[i].type);
-            temp_data.level = getLevel(profile_data[i].mid, profile_data[i].type);
+            temp_data.releasedate = getReleaseDate(profile_data[i].mid);
             temp_data.score = profile_data[i].score;
             temp_data.exscore = ((profile_data[i].exscore) ? profile_data[i].exscore : 0);
             temp_data.grade = getGrade(profile_data[i].grade);
@@ -266,14 +279,13 @@ $(document).ready(function() {
             // getSongName(1);
         }
 
-
         $('#music_score').DataTable({
             data: music_data,
             columns: [
                 { data: 'mid' },
                 { data: 'songname' },
                 { data: 'diff', "type": "diff" },
-                { data: 'level'},
+                { data: 'releasedate'},
                 { data: 'score', },
                 { data: 'exscore' },
                 { data: 'grade', "type": "grade" },
@@ -286,13 +298,13 @@ $(document).ready(function() {
                 details: {
                     display: $.fn.dataTable.Responsive.display.modal({
                         header: function(row) {
-                            let data = row.data();
+                            var data = row.data();
                             return 'Details for ' + data.songname;
                         }
                     })
                 }
             },
-            scrollY: "400px",
+
         });
 
 

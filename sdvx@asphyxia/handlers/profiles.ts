@@ -1,17 +1,21 @@
 import { Skill } from '../models/skill';
+import { SDVX_AUTOMATION_SONGS } from '../data/vvw';
 import { Item } from '../models/item';
 import { Param } from '../models/param';
+import { Arena } from '../models/arena';
 import { MusicRecord } from '../models/music_record';
 import { CourseRecord } from '../models/course_record';
 import { Profile } from '../models/profile';
+import { ValgeneTicket } from '../models/valgene_ticket';
 import { getVersion, IDToCode } from '../utils';
 import { Mix } from '../models/mix';
+import { ARENA, EVENT_SONGS6 } from '../data/exg';
 
 async function getAutomationMixes(params: Param[]) {
   const mixids = params
     .filter(p => p.id == 3)
     .reduce((res, p) => _.union(res, p.param), []);
-  return DB.Find<Mix>({ collection: 'mix', id: { $in: mixids } });
+  return await DB.Find<Mix>({ collection: 'mix', id: { $in: mixids } });
 }
 
 function unlockNavigators(items: Partial<Item>[]) {
@@ -29,10 +33,31 @@ function unlockAppealCards(items: Partial<Item>[]) {
   return items;
 }
 
+function removeStampItems(items: Partial<Item>[]) {
+  let itemsToRemove = []
+  for (let index in items) {
+    if (items[index].type === 17 && items[index].id % 4 != 0) {
+      itemsToRemove.push(index)
+    }
+  }
+
+  for (let itemIndex in itemsToRemove.reverse()) {
+    items.splice(itemsToRemove[itemIndex], 1)
+  }
+
+  for (let x=0; x<items.length; x++) {
+    if (items[x].type === 17) {
+      items[x].id /= 4
+    }
+  }
+
+  return items
+}
+
 export const loadScore: EPR = async (info, data, send) => {
   console.log("Now loading score");
   const version = Math.abs(getVersion(info));
-  console.log("Got version:" + version);
+  console.log("Got version: " + version);
   let refid = $(data).str('refid', $(data).attr().dataid);
   if (version === 2) refid = $(data).str('dataid', '0');
   //console.log('loading score');
@@ -42,6 +67,117 @@ export const loadScore: EPR = async (info, data, send) => {
   const records = await DB.Find<MusicRecord>(refid, { collection: 'music' });
 
 
+  //console.log(version);
+  if (version === 1) {
+    return send.object({
+      music: records.map(r => (K.ATTR({ music_id: String(r.mid) }, {
+        type: (() => {
+          const records = [];
+
+          for (let i = 1; i <= 3; i++) {
+            if (r.type != i) continue;
+            records.push(K.ATTR({
+              type_id: String(i),
+              score: String(r.score),
+              clear_type: String(r.clear),
+              score_grade: String(r.grade),
+              cnt: "0"
+            }));
+          }
+
+          return records;
+        })()
+      })))
+    });
+  }
+
+  if (version === 2) {
+    let temp = Array.from(records.values()).filter(r => (r.mid <= 554));
+    //console.log([...temp]);
+    //return send.pugFile('templates/infiniteinfection/score.pug', {
+    //      temp});
+    return send.object(
+      {
+        "new": {
+          music: temp.map(r => ({
+            music_id: K.ITEM('u32', r.mid),
+            music_type: K.ITEM('u32', r.type),
+            score: K.ITEM('u32', r.score),
+            cnt: K.ITEM('u32', 1),
+            clear_type: K.ITEM('u32', r.clear),
+            score_grade: K.ITEM('u32', r.grade),
+            btn_rate: K.ITEM('u32', r.buttonRate),
+            long_rate: K.ITEM('u32', r.longRate),
+            vol_rate: K.ITEM('u32', r.volRate),
+          }))
+        }, old: {}
+      }, { rootName: "game" });
+  }
+
+  if (version === 6) {
+    return send.object({
+      music: {
+        info: records.map(r => ({
+          param: K.ARRAY('u32', [
+            r.mid,
+            r.type,
+            r.score,
+            r.exscore,
+            r.clear,
+            r.grade,
+            0,
+            0,
+            r.buttonRate,
+            r.longRate,
+            r.volRate,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+          ]),
+        })),
+      },
+    });
+  }
+
+  if (version === 4 || version === 3) {
+    let temp = Array.from(records.values()).filter(r => (r.mid <= 1368));
+
+
+    return send.object({
+      music: {
+        info: temp.map(r => ({
+          param: K.ARRAY('u32', [
+            r.mid,
+            r.type,
+            r.score,
+            r.clear,
+            r.grade,
+            0,
+            0,
+            r.buttonRate,
+            r.longRate,
+            r.volRate,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+          ]),
+        })
+        ),
+      },
+    });
+  }
+
+
   return send.object({
     music: {
       info: records.map(r => ({
@@ -49,10 +185,9 @@ export const loadScore: EPR = async (info, data, send) => {
           r.mid,
           r.type,
           r.score,
-          r.exscore,
           r.clear,
           r.grade,
-          0, // max chain
+          0,
           0,
           r.buttonRate,
           r.longRate,
@@ -62,69 +197,163 @@ export const loadScore: EPR = async (info, data, send) => {
           0,
           0,
           0,
-          0, // last update time
-          0,
-          0,
-          0,
-          0,
           0,
         ]),
       })),
     },
   });
-  
 };
 
 export const saveScore: EPR = async (info, data, send) => {
   const refid = $(data).str('refid', $(data).attr().dataid);
   if (!refid) return send.deny();
 
-  const tracks = $(data).elements('track');
-  for (const i of tracks) {
-    const mid = i.number('music_id');
-    const type = i.number('music_type');
-    if (_.isNil(mid) || _.isNil(type)) return send.deny();
+  const version = getVersion(info);
 
-    const record = (await DB.FindOne<MusicRecord>(refid, {
-      collection: 'music',
-      mid,
-      type,
-    })) || {
-      collection: 'music',
-      mid,
-      type,
-      score: 0,
-      exscore: 0,
-      clear: 0,
-      grade: 0,
-      buttonRate: 0,
-      longRate: 0,
-      volRate: 0,
-    };
+  // Booth - Save score
+  if (version === 1) {
+    try {
+      const mid = parseInt($(data).attr().music_id);
+      const type = parseInt($(data).attr().music_type);
 
-    const score = i.number('score', 0);
-    const exscore = i.number('exscore', 0);
-    if (score > record.score) {
-      record.score = score;
-      record.buttonRate = i.number('btn_rate', 0);
-      record.longRate = i.number('long_rate', 0);
-      record.volRate = i.number('vol_rate', 0);
+      if (_.isNil(mid) || _.isNil(type)) return send.deny();
+
+      const record = (await DB.FindOne<MusicRecord>(refid, {
+        collection: 'music',
+        mid,
+        type,
+      })) || {
+        collection: 'music',
+        mid,
+        type,
+        score: 0,
+        clear: 0,
+        grade: 0,
+        buttonRate: 0,
+        longRate: 0,
+        volRate: 0,
+      };
+
+      const score = $(data).attr().score ? parseInt($(data).attr().score) : 0;
+      const clear = $(data).attr().clear_type ? parseInt($(data).attr().clear_type) : 0;
+      const grade = $(data).attr().score_grade ? parseInt($(data).attr().score_grade) : 0;
+      if (score > record.score) {
+        record.score = score;
+      }
+
+      record.clear = Math.max(clear, record.clear);
+      record.grade = Math.max(grade, record.grade);
+
+      await DB.Upsert<MusicRecord>(
+        refid,
+        { collection: 'music', mid, type },
+        record
+      );
+
+      return send.success();
+    } catch {
+      return send.deny();
     }
-    if (exscore > record.exscore) {
-      record.exscore = exscore;
-    }
-
-    record.clear = Math.max(i.number('clear_type', 0), record.clear);
-    record.grade = Math.max(i.number('score_grade', 0), record.grade);
-
-
-
-    await DB.Upsert<MusicRecord>(
-      refid,
-      { collection: 'music', mid, type },
-      record
-    );
   }
+
+
+  if (version === -6) { // Using alternate scoring system after 20210831
+    const tracks = $(data).elements('track');
+    for (const i of tracks) {
+      const mid = i.number('music_id');
+      const type = i.number('music_type');
+      if (_.isNil(mid) || _.isNil(type)) return send.deny();
+
+      const record = (await DB.FindOne<MusicRecord>(refid, {
+        collection: 'music',
+        mid,
+        type,
+      })) || {
+        collection: 'music',
+        mid,
+        type,
+        score: 0,
+        exscore: 0,
+        clear: 0,
+        grade: 0,
+        buttonRate: 0,
+        longRate: 0,
+        volRate: 0,
+      };
+
+      const score = i.number('score', 0);
+      const exscore = i.number('exscore', 0);
+      if (score > record.score) {
+        record.score = score;
+        record.buttonRate = i.number('btn_rate', 0);
+        record.longRate = i.number('long_rate', 0);
+        record.volRate = i.number('vol_rate', 0);
+      }
+      if (exscore > record.exscore) {
+        record.exscore = exscore;
+      }
+
+      record.clear = Math.max(i.number('clear_type', 0), record.clear);
+      record.grade = Math.max(i.number('score_grade', 0), record.grade);
+
+
+
+      await DB.Upsert<MusicRecord>(
+        refid,
+        { collection: 'music', mid, type },
+        record
+      );
+    }
+    return send.success();
+  }
+
+
+
+  const mid = $(data).number('music_id');
+  const type = $(data).number('music_type');
+  console.log("Saving score for version later than HH(include), ID:" + mid + " type:" + type);
+  if (_.isNil(mid) || _.isNil(type)) return send.deny();
+
+  const record = (await DB.FindOne<MusicRecord>(refid, {
+    collection: 'music',
+    mid,
+    type,
+  })) || {
+    collection: 'music',
+    mid,
+    type,
+    score: 0,
+    exscore: 0,
+    clear: 0,
+    grade: 0,
+    buttonRate: 0,
+    longRate: 0,
+    volRate: 0,
+  };
+
+  const score = $(data).number('score', 0);
+  const exscore = $(data).number('exscore', 0);
+  if (score > record.score) {
+    record.score = score;
+    record.buttonRate = $(data).number('btn_rate', 0);
+    record.longRate = $(data).number('long_rate', 0);
+    record.volRate = $(data).number('vol_rate', 0);
+  }
+  if (exscore > record.exscore) {
+    record.exscore = exscore;
+  }
+
+  record.clear = Math.max($(data).number('clear_type', 0), record.clear);
+  record.grade = Math.max($(data).number('score_grade', 0), record.grade);
+
+
+
+  await DB.Upsert<MusicRecord>(
+    refid,
+    { collection: 'music', mid, type },
+    record
+  );
+
   return send.success();
 };
 
@@ -166,51 +395,136 @@ export const save: EPR = async (info, data, send) => {
   const version = Math.abs(getVersion(info));
   if (version == 0) return send.deny();
 
+  if (version === 1) {
+    try {
+      // Save Profile
+      await DB.Update<Profile>(
+        refid,
+        { collection: 'profile' },
+        {
+          $set: {
+            headphone: $(data).number('headphone'),
+            hiSpeed: $(data).number('hispeed'),
+            appeal: $(data).number('appeal_id'),
+            boothFrame: [$(data).number('frame0'), $(data).number('frame1'), $(data).number('frame2'), $(data).number('frame3'), $(data).number('frame4')],
+            musicID: parseInt($(data).attr("last").music_id),
+            musicType: parseInt($(data).attr("last").music_type),
+            sortType: parseInt($(data).attr("last").sort_type),
+            mUserCnt: $(data).number('m_user_cnt'),
+          },
+          $inc: {
+            expPoint: $(data).number('gain_exp'),
+            packets: $(data).number('earned_gamecoin_packet'),
+            blocks: $(data).number('earned_gamecoin_block'),
+          },
+        }
+      );
 
-  await DB.Update<Profile>(
-    refid,
-    { collection: 'profile' },
-    {
-      $set: {
-        appeal: $(data).number('appeal_id'),
-
-        musicID: $(data).number('music_id'),
-        musicType: $(data).number('music_type'),
-        sortType: $(data).number('sort_type'),
-        headphone: $(data).number('headphone'),
-        blasterCount: $(data).number('blaster_count'),
-
-        hiSpeed: $(data).number('hispeed'),
-        laneSpeed: $(data).number('lanespeed'),
-        gaugeOption: $(data).number('gauge_option'),
-        arsOption: $(data).number('ars_option'),
-        notesOption: $(data).number('notes_option'),
-        earlyLateDisp: $(data).number('early_late_disp'),
-        drawAdjust: $(data).number('draw_adjust'),
-        effCLeft: $(data).number('eff_c_left'),
-        effCRight: $(data).number('eff_c_right'),
-        narrowDown: $(data).number('narrow_down'),
-      },
-      $inc: {
-        packets: $(data).number('earned_gamecoin_packet'),
-        blocks: $(data).number('earned_gamecoin_block'),
-        blasterEnergy: $(data).number('earned_blaster_energy'),
-        extrackEnergy: $(data).number('earned_extrack_energy'),
-      },
+      return send.success();
+    } catch {
+      return send.deny();
     }
-  );
-  
+  }
+
+  // Save Profile
+  if (version === 6) {
+    await DB.Update<Profile>(
+      refid,
+      { collection: 'profile' },
+      {
+        $set: {
+          appeal: $(data).number('appeal_id'),
+
+          musicID: $(data).number('music_id'),
+          musicType: $(data).number('music_type'),
+          sortType: $(data).number('sort_type'),
+          headphone: $(data).number('headphone'),
+          blasterCount: $(data).number('blaster_count'),
+
+          hiSpeed: $(data).number('hispeed'),
+          laneSpeed: $(data).number('lanespeed'),
+          gaugeOption: $(data).number('gauge_option'),
+          arsOption: $(data).number('ars_option'),
+          notesOption: $(data).number('notes_option'),
+          earlyLateDisp: $(data).number('early_late_disp'),
+          drawAdjust: $(data).number('draw_adjust'),
+          effCLeft: $(data).number('eff_c_left'),
+          effCRight: $(data).number('eff_c_right'),
+          narrowDown: $(data).number('narrow_down'),
+        },
+        $inc: {
+          packets: $(data).number('earned_gamecoin_packet'),
+          blocks: $(data).number('earned_gamecoin_block'),
+          blasterEnergy: $(data).number('earned_blaster_energy'),
+          extrackEnergy: $(data).number('earned_extrack_energy'),
+          playCount: 1,
+          dayCount: 1,
+          todayCount: 1,
+          playChain: 1,
+          maxPlayChain: 1,
+          weekCount: 1,
+          weekPlayCount: 1,
+          weekChain: 1,
+          maxWeekChain: 1
+        },
+      }
+    );
+  }
+  if (version === 5 || version === 4) {
+    await DB.Update<Profile>(
+      refid,
+      { collection: 'profile' },
+      {
+        $set: {
+          appeal: $(data).number('appeal_id'),
+
+          musicID: $(data).number('music_id'),
+          musicType: $(data).number('music_type'),
+          sortType: $(data).number('sort_type'),
+          headphone: $(data).number('headphone'),
+          blasterCount: $(data).number('blaster_count'),
+
+          hiSpeed: $(data).number('hispeed'),
+          laneSpeed: $(data).number('lanespeed'),
+          gaugeOption: $(data).number('gauge_option'),
+          arsOption: $(data).number('ars_option'),
+          notesOption: $(data).number('notes_option'),
+          earlyLateDisp: $(data).number('early_late_disp'),
+          drawAdjust: $(data).number('draw_adjust'),
+          effCLeft: $(data).number('eff_c_left'),
+          effCRight: $(data).number('eff_c_right'),
+          narrowDown: $(data).number('narrow_down'),
+        },
+        $inc: {
+          packets: $(data).number('earned_gamecoin_packet'),
+          blocks: $(data).number('earned_gamecoin_block'),
+          blasterEnergy: $(data).number('earned_blaster_energy'),
+          playCount: 1,
+          dayCount: 1,
+          todayCount: 1,
+          playChain: 1,
+          maxPlayChain: 1,
+          weekCount: 1,
+          weekPlayCount: 1,
+          weekChain: 1,
+          maxWeekChain: 1
+        },
+      }
+    );
+  }
   
   // New course saving function found in sdvx 20220214
+  // Updated for God mode
   const course = $(data).element('course');
   if(!_.isNil(course)){
       const sid = course.number('ssnid');
       const cid = course.number('crsid');
-      const skill_type = course.number('st');
+      const stype = course.number('st');
+
       if (!(_.isNil(sid) || _.isNil(cid))){
         await DB.Upsert<CourseRecord>(
           refid,
-          { collection: 'course', sid, cid, version, skill_type },
+          { collection: 'course', sid, cid, stype, version },
           {
             $max: {
               score: course.number('sc', 0),
@@ -272,10 +586,41 @@ export const save: EPR = async (info, data, send) => {
         base: $(data).number('skill_base_id'),
         level: $(data).number('skill_level'),
         name: $(data).number('skill_name_id'),
-        stype: $(data).number('skill_type')
+        type: $(data).number('skill_type'),
       },
     }
   );
+
+  // Save Arena Data
+  const arena_data = $(data).elements('arena');
+  for (const are of arena_data) {
+    const szn = are.number('season');
+    const earnedRP = are.number('earned_rank_point');
+    const earnedSP = are.number('earned_shop_point');
+    const earnedUR = are.number('earned_ultimate_rate');
+    const earnedMR = are.number('earned_megamix_rate');
+    const earnedLE = are.number('earned_live_energy');
+    const rankPlay = are.str('rank_play') == 'true' ? 1 : 0;
+    const ultimatePlay = are.str('ultimate_play') == 'true' ? 1 : 0;
+    await DB.Upsert<Arena>(
+      refid,
+      { 
+        collection: 'arena',
+        season: szn
+      },
+      { 
+        $inc: { 
+          ultimateRate: _.isNil(earnedUR) ? 0 : earnedUR,
+          megamixRate: _.isNil(earnedMR) ? 0 : earnedMR,
+          shopPoint: _.isNil(earnedSP) ? 0 : earnedSP,
+          rankPoint: _.isNil(earnedRP) ? 0 : earnedRP,
+          liveEnergy: _.isNil(earnedLE) ? 0 : earnedLE,
+          rankCount: rankPlay,
+          ultimateCount: ultimatePlay
+        } 
+      }
+    );
+  }
 
   return send.success();
 };
@@ -286,8 +631,8 @@ export const load: EPR = async (info, data, send) => {
   if (!refid) return send.deny();
 
   const version = Math.abs(getVersion(info));
-  console.log("Got version" + version);
-  console.log("DataID" + refid);
+  console.log("Got version: " + version);
+  console.log("DataID: " + refid);
   if (version == 0) return send.deny();
 
   const profile = await DB.FindOne<Profile>(refid, {
@@ -302,21 +647,69 @@ export const load: EPR = async (info, data, send) => {
   let skill = (await DB.FindOne<Skill>(refid, {
     collection: 'skill',
     version,
-  })) || { base: 0, name: 0, level: 0, stype:0 };
+  })) || { base: 0, name: 0, level: 0 };
 
-  skill.stype = skill.stype ?? 0;
+  let presents = []
+  if(version === 6) {
+    if(IO.Exists('webui/asset/config/events.json')) {
+      let bufEventData = await IO.ReadFile('webui/asset/json/events.json')
+      let bufEventConfig = await IO.ReadFile('webui/asset/config/events.json')
+      let eventData = JSON.parse(bufEventData.toString())
+      let eventConfig = JSON.parse(bufEventConfig.toString())
+      for(const eventIter in eventData['events']) {
+        if(['gift', 'cross_online'].includes(eventData['events'][eventIter]['type']) && eventConfig[eventData['events'][eventIter]['id']] !== undefined) {
+          if(typeof eventConfig[eventData['events'][eventIter]['id']]['toggle'] === "boolean") {
+            if(eventConfig[eventData['events'][eventIter]['id']]['toggle']) {
+              for(const itemIter in EVENT_SONGS6[eventData['events'][eventIter]['id']]) {
+                let itemId = parseInt(EVENT_SONGS6[eventData['events'][eventIter]['id']][itemIter])
+                if(await DB.Count(refid, {collection:'item', id: itemId}) === 0) {
+                  await DB.Upsert(
+                    refid, 
+                    {collection: 'item', type: 0, id: itemId}, 
+                    {$set: { param: 23 }}
+                  )
 
+                  presents.push({
+                    id: itemId,
+                    type: 0,
+                    param: 23
+                  })
+                }
+              }
+            }
+          } else{
+            for(const toggleKeys in Object.keys(eventConfig[eventData['events'][eventIter]['id']]['toggle'])) {
+              if(eventConfig[eventData['events'][eventIter]['id']]['toggle'][Object.keys(eventConfig[eventData['events'][eventIter]['id']]['toggle'])[toggleKeys]]) {
+                for(const itemIter in EVENT_SONGS6[Object.keys(eventConfig[eventData['events'][eventIter]['id']]['toggle'])[toggleKeys]]) {
+                  let itemId = parseInt(EVENT_SONGS6[Object.keys(eventConfig[eventData['events'][eventIter]['id']]['toggle'])[toggleKeys]][itemIter])
+                  if(await DB.Count(refid, {collection:'item', id: itemId}) === 0) {
+                    await DB.Upsert(
+                      refid, 
+                      {collection: 'item', type: 0, id: itemId}, 
+                      {$set: { param: 23 }}
+                    )
 
-  const courses = await DB.Find<CourseRecord>(refid, { collection: 'course', version });
-
-  for(const c of courses){
-    c.skill_type = c.skill_type ?? 0;
-    c.exscore = c.exscore ?? 0;
+                    presents.push({
+                      id: itemId,
+                      type: 0,
+                      param: 23
+                    })
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
   }
 
-
   const items = await DB.Find<Item>(refid, { collection: 'item' });
+  const courses = await DB.Find<CourseRecord>(refid, { collection: 'course', version });
   const params = await DB.Find<Param>(refid, { collection: 'param' });
+  const arena = await DB.FindOne<Arena>(refid, { collection: 'arena', season: (U.GetConfig('arena_szn') !== "None") ? ARENA[U.GetConfig('arena_szn')]['details']['season'] : 0 });
+  const valgeneTicket = await DB.FindOne<ValgeneTicket>(refid, { collection: 'valgene_ticket' })
+
   let time = new Date();
   let tempHour = time.getHours();
   let tempDate = time.getDate();
@@ -330,6 +723,21 @@ export const load: EPR = async (info, data, send) => {
     profile.extrackEnergy = 0;
   }
 
+  if (version === 1) {
+    return send.pugFile('templates/booth/load.pug', { code: IDToCode(profile.id), ...profile });
+  }
+
+  if (version === 2) {
+    let tempItem = U.GetConfig('unlock_all_appeal_cards') ? unlockAppealCards(items) : items
+    tempItem = Array.from(tempItem.values()).filter(r => (r.id <= 220));
+    return send.pugFile('templates/infiniteinfection/load.pug', {
+      courses,
+      tempItem,
+      params,
+      skill,
+      ...profile
+    });
+  }
   const bgm = profile.bgm ? profile.bgm : 0;
   const subbg = profile.subbg ? profile.subbg : 0;
   const nemsys = profile.nemsys ? profile.nemsys : 0;
@@ -337,17 +745,18 @@ export const load: EPR = async (info, data, send) => {
   const stampB = profile.stampB ? profile.stampB : 0;
   const stampC = profile.stampC ? profile.stampC : 0;
   const stampD = profile.stampD ? profile.stampD : 0;
-  const stampA_R = profile.stampA_R ? profile.stampA_R : 0;
-  const stampB_R = profile.stampB_R ? profile.stampB_R : 0;
-  const stampC_R = profile.stampC_R ? profile.stampC_R : 0;
-  const stampD_R = profile.stampD_R ? profile.stampD_R : 0;
-  const mainbg = profile.mainbg ? profile.mainbg : 0;
+  const stampRA = profile.stampRA ? profile.stampRA : 0;
+  const stampRB = profile.stampRB ? profile.stampRB : 0;
+  const stampRC = profile.stampRC ? profile.stampRC : 0;
+  const stampRD = profile.stampRD ? profile.stampRD : 0;
+  const sysBG = profile.sysBG ? profile.sysBG : 0;
+  const bplSupport = profile.bplSupport ? profile.bplSupport : 0;
+
 
   const customize = [];
-  customize.push(bgm, subbg, nemsys, stampA, stampB, stampC, stampD, stampA_R, stampB_R, stampC_R, stampD_R, mainbg);
+  customize.push(bgm, subbg, nemsys, stampA, stampB, stampC, stampD, stampRA, stampRB, stampRC, stampRD, sysBG);
 
-
-  let tempCustom = params.findIndex((e) => (e.type == 2 && e.id == 2))
+  var tempCustom = params.findIndex((e) => (e.type == 2 && e.id == 2))
 
   if (tempCustom == -1) {
     const tempParam: Param = { collection: 'param', type: 2, id: 2, param: [] };
@@ -359,32 +768,32 @@ export const load: EPR = async (info, data, send) => {
     params[tempCustom].param = customize;
   }
 
-
   let blasterpass = U.GetConfig('use_blasterpass') ? 1 : 0;
 
-  let tempItem = U.GetConfig('unlock_all_navigators') ? unlockNavigators(items) : items;
-  tempItem = U.GetConfig('unlock_all_appeal_cards') ? unlockAppealCards(tempItem) : tempItem;
+  var tempItem = U.GetConfig('unlock_all_navigators') ? unlockNavigators(items) : items;
+  tempItem = U.GetConfig('unlock_all_appeal_cards') ? unlockAppealCards(items) : items;
+  tempItem = removeStampItems(tempItem)
 
   // Make generator power always 100%,
   for (let i = 0; i < 50; i++) {
     const tempGene: Item = { collection: 'item', type: 7, id: i, param: 10 };
     tempItem.push(tempGene);
   }
-  profile.appeal_frame = profile.appeal_frame ? profile.appeal_frame : 0;
-  profile.support_team = profile.support_team ? profile.support_team : 0;
-
 
   return send.pugFile('templates/load.pug', {
     courses,
     items: tempItem,
+    present: presents,
     params,
     skill,
     currentTime,
     mixes,
     version,
     blasterpass,
-    automation: [],
+    automation: version == 5 ? SDVX_AUTOMATION_SONGS : [],
     code: IDToCode(profile.id),
+    arena,
+    valgeneTicket,
     ...profile,
   });
 };
@@ -430,13 +839,12 @@ export const create: EPR = async (info, data, send) => {
     stampB: 0,
     stampC: 0,
     stampD: 0,
-	  stampA_R: 0,
-    stampB_R: 0,
-    stampC_R: 0,
-    stampD_R: 0,
-    mainbg: 0,
-    appeal_frame: 0,
-    support_team: 0,
+    stampRA: 0,
+    stampRB: 0,
+    stampRC: 0,
+    stampRD: 0,
+
+    sysBG: 0,
 
     headphone: 0,
     musicID: 0,
@@ -444,7 +852,19 @@ export const create: EPR = async (info, data, send) => {
     sortType: 0,
     expPoint: 0,
     mUserCnt: 0,
-    boothFrame: [0, 0, 0, 0, 0]
+    boothFrame: [0, 0, 0, 0, 0],
+
+    playCount: 0,
+    dayCount: 0,
+    todayCount: 0,
+    playchain: 0,
+    maxPlayChain: 0,
+    weekCount: 0,
+    weekPlayCount: 0,
+    weekChain: 0,
+    maxWeekChain: 0,
+
+    bplSupport: 0
   };
 
   await DB.Upsert(refid, { collection: 'profile' }, profile);
@@ -452,6 +872,7 @@ export const create: EPR = async (info, data, send) => {
 };
 
 export const buy: EPR = async (info, data, send) => {
+  console.log("buying")
   const refid = $(data).str('refid');
   if (!refid) return send.deny();
 
@@ -498,7 +919,8 @@ export const buy: EPR = async (info, data, send) => {
 
 export const print: EPR = async (info, data, send) => {
   const genesisCards = $(data).elements('genesis_card');
-  let generatorArray = [];
+  var genesisCardsArray = [];
+  var generatorArray = [];
   for (const g of genesisCards) {
     let tempGeneratorID = g.number('generator_id');
     let exist = generatorArray.findIndex((e) => (e == tempGeneratorID));
@@ -516,5 +938,63 @@ export const print: EPR = async (info, data, send) => {
       generator_id: K.ITEM('s32', r),
       param: K.ITEM('s32', 10),
     }))
-  });
+  }), { status: "0" };
+}
+
+export const saveValgene: EPR = async (info, data, send) => {
+  console.log("Saving Valkyrie Generator Item")
+  const refid = $(data).str('refid');
+  const items = $(data).elements('item.info');
+  const useTicket = $(data).bool('use_ticket');
+  let itemsToAdd = []
+  for (const i of items) {
+    const type = i.number('type');
+    const id = i.number('id');
+    const param = i.number('param');
+    if(type === 17) {
+      for (let stampId = ((id * 4) - 3); stampId <= (id * 4); stampId++) {
+        itemsToAdd.push({'type': type, 'id': stampId, 'param': param})
+      }
+    } else {
+      itemsToAdd.push({'type': type, 'id': id, 'param': param})
+    }
+  }
+
+  for(let itemToAdd in itemsToAdd) {
+    let id = itemsToAdd[itemToAdd].id
+    let type = itemsToAdd[itemToAdd].type
+    let param = itemsToAdd[itemToAdd].param
+    console.log("Saving (" + type + " | " + id + " | " + param + ")")
+    if (_.isNil(type) || _.isNil(id) || _.isNil(param)) continue;
+
+    await DB.Upsert<Item>(
+      refid,
+      { collection: 'item', type, id },
+      { $set: { param } }
+    );
+  }
+
+  if(useTicket) {
+    await DB.Upsert<ValgeneTicket>(
+      refid,
+      { collection: 'valgene_ticket' },
+      { $inc: {ticketNum: -1} }
+    )
+  }
+  let valgeneTicket = await DB.FindOne<ValgeneTicket>(refid, { collection: 'valgene_ticket' })
+  let result = {
+    result: K.ITEM('s32', 1)
+  }
+  if(valgeneTicket !== null) {
+    result['ticket_num'] = K.ITEM('s32', valgeneTicket.ticketNum)
+    result['limit_date'] = K.ITEM('u64', BigInt(valgeneTicket.limitDate))
+  }
+
+  return send.object(result);
+}
+
+export const saveE: EPR = async (info, data, send) => {
+  console.log("save_e - WIP")
+
+  send.success();
 }
