@@ -4,7 +4,7 @@
 
 ## Credits:
 - 22vv0 - SDVX plugin fork
-- duel0213 - IIDX Plugin for IIDX 15-26
+- duel0213 - IIDX Plugin for IIDX 15-30
 - RoxCian - Reflec Beat
 - rest is maintained by the community
 
