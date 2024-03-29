@@ -1,4 +1,4 @@
-# Asphyxia CORE Community Plugins
+# Asphyxia CORE ~~Community~~ Plugins List
 
 ~~These plugins are provided by community members and considered officially supported by Team Asphyxia.~~ no
 
