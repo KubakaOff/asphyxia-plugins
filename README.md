@@ -4,14 +4,12 @@
 
 ## Credits:
 - 22vv0 - SDVX plugin fork
-- sol (solc.) - IIDX Plugin for IIDX 27
-- Unknown - IIDX Plugin for IIDX 28-31
 - duel0213 - IIDX Plugin for IIDX 15-26
 - RoxCian - Reflec Beat
 - rest is maintained by the community
 
 ## Supported versions
-### beatmania IIDX (15-26 not merged yet)
+### beatmania IIDX
 - beatmania IIDX 15 DJ TROOPERS
 - beatmania IIDX 16 EMPRESS
 - beatmania IIDX 17 SIRIUS
@@ -28,7 +26,6 @@
 - beatmania IIDX 28 BISTROVER
 - beatmania IIDX 29 CastHour
 - beatmania IIDX 30 RESIDENT
-- beatmania IIDX 31 EPOLIS
 
 ### BeatStream
 - BeatStream アニムトライヴ
