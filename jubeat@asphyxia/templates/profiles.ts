@@ -40,12 +40,14 @@ module.exports = async (data: Profile) => ({
       title: K.ITEM("s16", data?.title || 0),
       parts: K.ITEM("s16", data?.parts || 0),
       rank_sort: K.ITEM("s8", data?.rankSort || 0),
+      random_option: K.ITEM("s8", data?.randomOption || 0),
+      judge_disp: K.ITEM("s8", data?.judgeDisp || 0),
       combo_disp: K.ITEM("s8", data?.comboDisp || 0),
       emblem: K.ARRAY("s16", data?.emblem || [0, 0, 0, 0, 0]),
       matching: K.ITEM("s8", data?.matching || 0),
       hard: K.ITEM("s8", data?.hard || 0),
       hazard: K.ITEM("s8", data?.hazard || 0),
-      target_type: K.ITEM("s32", data?.target || 0),
+      target_type: K.ITEM("s32", data?.targetType || 0),
     },
   },
 
@@ -114,6 +116,7 @@ module.exports = async (data: Profile) => ({
   question_list: {},
   team_battle: {},
   server: {},
+  
   course_list: {
       course: await (async () =>{
         let courseData = await DB.Find<Course>(data.name, { collection: "course" });
@@ -129,6 +132,7 @@ module.exports = async (data: Profile) => ({
       })()
      
   },
+  
   category_list: {
     category: courseCategories.map((categorie, i) =>
       K.ATTR(

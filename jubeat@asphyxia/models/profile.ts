@@ -12,8 +12,6 @@ export default interface Profile {
     musicId?: number;
     seqId?: number;
     seqEditId?: string;
-    rankSort?: number;
-    comboDisp?: number;
 
     jubility?: number;
     jubilityYday?: number;
@@ -42,7 +40,11 @@ export default interface Profile {
     matching?: number;
     hazard?: number;
     hard?: number;
-    target?: number;
+    targetType?: number;
+    rankSort?: number;
+    randomOption?: number;
+    comboDisp?: number;
+    judgeDisp?: number;
 
     secretList?: number[];
     themeList?: number;
