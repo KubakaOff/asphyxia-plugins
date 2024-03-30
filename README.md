@@ -42,7 +42,7 @@
 
 ### jubeat
 - jubeat festo
-- jubeat Ave.
+- jubeat Ave. (final not tested)
 
 ### Metal Gear Arcade
 - Metal Gear Arcade (no network functionality)
