@@ -43,7 +43,6 @@
 ### jubeat
 - jubeat festo
 - jubeat Ave.
-- jubeat Beyond the Ave.
 
 ### Metal Gear Arcade
 - Metal Gear Arcade (no network functionality)

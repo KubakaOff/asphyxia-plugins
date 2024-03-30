@@ -6,7 +6,6 @@ Jubeat Plugin for Asphyxia Core
 
 - Festo
 - Ave
-- Beyond The Ave
 
 # Versions
 
@@ -22,9 +21,6 @@ Jubeat Plugin for Asphyxia Core
     - Supports Ave Initial
     - Should be stable enough i think
     - Happy new year
-
-- V3.0.1 ([custom](https://github.com/yuanqiuye/asphyxia-jubeat-CZEAve-plugins/))
-    - Support Beyond The Ave Initial
 
 # TODO
 

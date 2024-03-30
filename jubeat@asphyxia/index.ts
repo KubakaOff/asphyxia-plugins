@@ -19,24 +19,24 @@ export async function register() {
     R.Route("gametop.get_meeting", Meeting);
 	  
     // ave routes 
-	  R.Route("gametop_ave2.regist",getProfile);
-    R.Route("gametop_ave2.get_info", Getinfo);
-	  R.Route("demodata_ave2.get_info", Getinfo);
-    R.Route("gametop_ave2.get_pdata", getProfile);
-    R.Route("gametop_ave2.get_mdata", loadScore);
-    R.Route("gametop_ave2.get_meeting", Meeting);
-    R.Route("demodata_ave2.get_jbox_list", getJboxList);
-    R.Route("demodata_ave2.get_news", getNews);
-    R.Route("recommend_ave2.get_recommend", false)
-    R.Route("jbox_ave2.get_image", false)
+	  R.Route("gametop_ave.regist",getProfile);
+    R.Route("gametop_ave.get_info", Getinfo);
+	  R.Route("demodata_ave.get_info", Getinfo);
+    R.Route("gametop_ave.get_pdata", getProfile);
+    R.Route("gametop_ave.get_mdata", loadScore);
+    R.Route("gametop_ave.get_meeting", Meeting);
+    R.Route("demodata_ave.get_jbox_list", getJboxList);
+    R.Route("demodata_ave.get_news", getNews);
+    R.Route("recommend_ave.get_recommend", false)
+    R.Route("jbox_ave.get_image", false)
   
     
 	  R.Route("gameend.final", true);
     R.Route("gameend.regist", saveProfile);
 	  
     // ave routes
-	  R.Route("gameend_ave2.final", true);
-    R.Route("gameend_ave2.regist", saveProfile);
+	  R.Route("gameend_ave.final", true);
+    R.Route("gameend_ave.regist", saveProfile);
     
   	R.Route("shopinfo.regist", ShopInfo);
     R.Route("lobby.check", Check);
@@ -44,16 +44,16 @@ export async function register() {
     R.Route("lobby.refresh", Refresh);
     R.Route("lobby.report", Report);
 	  // ave routes
-	  R.Route("shopinfo_ave2.regist", ShopInfo);
-    R.Route("lobby_ave2.check", Check);
-    R.Route("lobby_ave2.entry", Entry);
-    R.Route("lobby_ave2.refresh", Refresh);
-    R.Route("lobby_ave2.report", Report);
+	  R.Route("shopinfo_ave.regist", ShopInfo);
+    R.Route("lobby_ave.check", Check);
+    R.Route("lobby_ave.entry", Entry);
+    R.Route("lobby_ave.refresh", Refresh);
+    R.Route("lobby_ave.report", Report);
   
   
     R.Route("netlog.send", true);
     R.Route("logger.report", true);
-	  R.Route("netlog_ave2.send", true);
-    R.Route("logger_ave2.report", true);
+	  R.Route("netlog_ave.send", true);
+    R.Route("logger_ave.report", true);
     R.Unhandled();
   }
