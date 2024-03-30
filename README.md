@@ -3,9 +3,10 @@
 ~~These plugins are provided by community members and considered officially supported by Team Asphyxia.~~ no
 
 ## Credits:
-- 22vv0 - SDVX plugin fork
-- duel0213 - IIDX Plugin for IIDX 15-30
-- RoxCian - Reflec Beat
+- [22vv0](https://github.com/22vv0?tab=repositories) - SDVX plugin fork
+- [duel0213](https://github.com/duel0213?tab=repositories) - IIDX Plugin for IIDX 15-30
+- [RoxCian](https://github.com/RoxCian?tab=repositories) - Reflec Beat
+- [Chara_](https://github.com/ItsCharaHere?tab=repositories) and [asesidaa](https://github.com/asesidaa?tab=repositories) - jubeat Ave. support
 - rest is maintained by the community
 
 ## Supported versions
@@ -41,6 +42,8 @@
 
 ### jubeat
 - jubeat festo
+- jubeat Ave.
+- jubeat Beyond the Ave.
 
 ### Metal Gear Arcade
 - Metal Gear Arcade (no network functionality)
