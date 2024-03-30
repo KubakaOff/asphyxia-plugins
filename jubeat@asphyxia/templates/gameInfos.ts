@@ -1,15 +1,14 @@
 import {emoList, shopList, FestoCourse, courseCategories} from "../static/data"
 
 /*
-if pos_index is not (1230 ~ 1236 or 1204 ~ 1205) and pos_index > 1200:
-  then all festo songs
+pos_index >= 1508:
+  then all ave songs
 */
-var pick_up_array = new Array(64).fill(-1);
-for(var i=0; i<=36; i++){
+var pick_up_array = Array(64).fill(-1);
+for(var i=0; i<=46; i++){
   pick_up_array[i] = 0;
 }
-pick_up_array[37] = -3211264;
-pick_up_array[38] = -2080769;
+pick_up_array[47] = 17592186044415;
 
 module.exports = () => ({
   info: {
@@ -19,6 +18,14 @@ module.exports = () => ({
     open_music_list: K.ARRAY("s32", new Array(64).fill(-1)),
     add_default_music_list: K.ARRAY("s32", new Array(64).fill(-1)),
     hot_music_list: K.ARRAY("s32", pick_up_array),
+
+    judge_disp: {
+      is_available: K.ITEM("bool", true),
+    },
+
+    random_option: {
+      is_available: K.ITEM("bool", true),
+    },
 
     expert_option: {
       is_available: K.ITEM("bool", true),
@@ -72,11 +79,19 @@ module.exports = () => ({
       },
     },
 
+    official_news: {
+      news_list: {
+        news: K.ATTR({id: "1"},{
+          is_checked: K.ITEM("bool", false)
+        }),
+      },
+    },
+    mynews: {},
     course_list: {
       course: FestoCourse.map((course, i) =>
         K.ATTR(
           {
-            release_code: "2022052400",
+            release_code: "2022000000",
             version_id: "0",
             id: String(i + 1),
             course_type: String(course.course_type),
@@ -113,18 +128,6 @@ module.exports = () => ({
           }
         )
       ),
-      category_list: {
-        category: courseCategories.map((categorie, i) =>
-          K.ATTR(
-            { id: String(i + 1)},
-            {
-              is_secret: K.ITEM("bool", false),
-              level_min: K.ITEM("s32", categorie[0]),
-              level_max: K.ITEM("s32", categorie[1]),
-            }
-          )
-        )
-      },
     },
     emo_list: {
       emo: emoList.map((emo, i) =>
@@ -137,5 +140,36 @@ module.exports = () => ({
         )
       ),
     },
+    
+    lightchat: { 
+      map_list: {
+        map: K.ATTR({id: String(99)},{
+          event_list:{
+            event: K.ATTR({id: "1"},{
+              event_type: K.ITEM("s32", 1),
+              stime: K.ITEM("u64", BigInt(1672667089)),
+              etime: K.ITEM("u64", BigInt(1735796677)),
+              is_open: K.ITEM("bool", true),
+              hint: K.ITEM("str", "len=64"),
+              unlock_text: K.ITEM("str", "len=128"),
+              condition_list: {
+              },
+              section_list: {
+                section: K.ATTR({id: "1"},{
+                  tube_text: K.ITEM("str", "len=12"),
+                  required_jwatt: K.ITEM("s32", 2147483647),
+                  reward_type: K.ITEM("s32", 1),
+                  reward_param: K.ITEM("s32", 100),
+                  dialogue: K.ITEM("str", "len=64"),
+                  mission_list:{
+                  }
+                })
+              }
+            })
+          }
+        })
+      },
+    }
+    
   },
 });

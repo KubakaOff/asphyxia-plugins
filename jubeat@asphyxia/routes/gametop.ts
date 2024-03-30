@@ -44,7 +44,31 @@ export const getProfile = async (
           session_id: K.ITEM('s32', 1),
           name: K.ITEM('str', profile.name),
           event_flag: K.ITEM('u64', BigInt(profile.eventFlag || 0)),
-
+          lightchat: { 
+            current_map_id: K.ITEM("s32", 99),
+            current_event_id: K.ITEM("s32", 1),
+            map_list: {
+              map: K.ATTR({id: "99"}, {
+                tune_count: K.ITEM("s32", 0),
+                last_daily_bonus_time: K.ITEM("u64", BigInt(1672667089)),
+                event_list: {
+                  event: K.ATTR({id: "1"}, {
+                    display_state: K.ITEM("s32", 1),
+                    condition_list: {
+                    },
+                    section_list: {
+                      section: K.ATTR({id: "1"},{
+                        acquired_jwatt: K.ITEM("s32", 50),
+                        is_cleared: K.ITEM("bool", false),
+                        mission_list:{
+                        }
+                      })
+                    }
+                  })
+                }
+              })
+            },
+          },
           ...(await require('../templates/profiles.ts')(profile)),
         },
       },
@@ -209,3 +233,45 @@ export const Meeting = (req: EamuseInfo, data: any, send: EamuseSend) => {
     { compress: true }
   );
 };
+
+export const getJboxList = (info: EamuseInfo, data: any, send: EamuseSend) =>{
+  return send.object({
+    data: {
+      selection: K.ITEM("s32", 0),
+      selection_list: K.ITEM("s32", 0),
+      is_cache_clear: K.ITEM("s32", 0),
+    },
+    selection_list: {
+      selection: {
+        name:  K.ITEM("str", "lmao"),
+        image_id: K.ITEM("s32", 1),
+        etime: K.ITEM("s64", BigInt(0)),
+        target_list: {
+          target: {
+            appearlist: K.ITEM("s32", 0),
+            emblemlist: K.ITEM("s32", 0),
+            definedlist: K.ITEM("s32", 0),
+            rarity: K.ITEM("s32", 0),
+            rarity_special: K.ITEM("s32", 0),
+          }
+        }
+      },
+      is_cache_clear: K.ITEM("s32", 0),
+    }
+  })
+}
+
+
+export const getNews = (info: EamuseInfo, data: any, send: EamuseSend) =>{
+  return send.object({
+    data: {
+    officialnews: {
+      newsid: {},
+      data: {
+        newsid: K.ITEM("s32", 1),
+        image: K.ITEM("s32", 0 , {size: "3"})
+      }
+    }
+    }
+  })
+}

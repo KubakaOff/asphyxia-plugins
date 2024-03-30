@@ -5,6 +5,8 @@ Jubeat Plugin for Asphyxia Core
 # Supported Versions
 
 - Festo
+- Ave
+- Beyond The Ave
 
 # Versions
 
@@ -16,11 +18,22 @@ Jubeat Plugin for Asphyxia Core
     - Support hard mode score saving
     - Support Turn Run
 
+- V3.0.0 (2023/01/08)
+    - Supports Ave Initial
+    - Should be stable enough i think
+    - Happy new year
+
+- V3.0.1 ([custom](https://github.com/yuanqiuye/asphyxia-jubeat-CZEAve-plugins/))
+    - Support Beyond The Ave Initial
+
 # TODO
 
 - [ ] Customized Turn Run. (Currently can't cuz Jubeat courses limit is 60, need someone to find how to patch it.)
+- [ ] Completely implement Light Chat + other events
+- [ ] `jbox_ave.get_image` may be unstable and softlock the game, possibly implement?
 
 # Credits
 
+- Ave support by [Chara_](https://github.com/ItsCharaHere?tab=repositories) and [asesidaa](https://github.com/asesidaa?tab=repositories)
 - Thanks [asesidaa](https://github.com/asesidaa?tab=repositories) for help!
 - And also the other open-soured Jubeat lovers!

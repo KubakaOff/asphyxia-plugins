@@ -87,6 +87,9 @@ export const saveProfile = async (info, {data}, send) => {
     profile.matching = $(data).number("player.last.settings.matching");
     profile.hazard =$(data).number("player.last.settings.hazard");
     profile.hard = $(data).number("player.last.settings.hard");
+    profile.targetType = $(data).number("player.last.settings.target_type");
+    profile.randomOption = $(data).number("player.last.settings.random_option");
+    profile.judgeDisp = $(data).number("player.last.settings.judge_disp");
     profile.bonusPoints = $(data).number("player.info.bonus_tune_points");
     profile.isBonusPlayed = $(data).bool("player.info.is_bonus_tune_played");
     profile.totalBestScore = $(data).number("player.info.total_best_score.normal");
