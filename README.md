@@ -20,7 +20,7 @@
 - beatmania IIDX 21 SPADA
 - beatmania IIDX 22 PENDUAL
 - beatmania IIDX 23 copula
-- beatmania IIDX 24 SINOBUZ
+- beatmania IIDX 24 SINOBUZ (didn't work for me when importing from another version)
 - beatmania IIDX 25 CANNON BALLERS
 - beatmania IIDX 26 ROOTAGE
 - beatmania IIDX 27 HEROIC VERSE
