@@ -6,7 +6,7 @@
 - [22vv0](https://github.com/22vv0?tab=repositories) - SDVX plugin fork
 - [duel0213](https://github.com/duel0213?tab=repositories) - IIDX Plugin for IIDX 15-30
 - [RoxCian](https://github.com/RoxCian?tab=repositories) - Reflec Beat
-- [yuanqiuye](https://github.com/yuanqiuye?tab=repositories) and - jubeat Ave. support
+- [yuanqiuye](https://github.com/yuanqiuye?tab=repositories) - jubeat Ave. support
 - rest is maintained by the community
 
 ## Supported versions
