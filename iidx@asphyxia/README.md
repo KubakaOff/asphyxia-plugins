@@ -1,32 +1,31 @@
 # beatmaniaIIDX
 
-Plugin Version: **v0.1.14**
+Plugin Version: **v0.1.15**
 
 ---
 
 Supported Versions
-
-  - beatmaniaIIDX 15 DJ TROOPERS
-  - beatmaniaIIDX 16 EMPRESS
-  - beatmaniaIIDX 17 SIRIUS
-  - beatmaniaIIDX 18 Resort Anthem
-  - beatmaniaIIDX 19 Lincle
-  - beatmaniaIIDX 20 tricoro
-  - beatmaniaIIDX 21 SPADA
-  - beatmaniaIIDX 22 PENDUAL
-  - beatmaniaIIDX 23 copula
-  - beatmaniaIIDX 24 SINOBUZ
-  - beatmaniaIIDX 25 CANNON BALLERS
-  - beatmaniaIIDX 26 Rootage
-  - beatmaniaIIDX 27 HEROIC VERSE
-  - beatmaniaIIDX 28 BISTROVER
-  - beatmaniaIIDX 29 CastHour
-  - beatmaniaIIDX 30 RESIDENT
+  - beatmaniaIIDX 14 GOLD (2007072301)
+  - beatmaniaIIDX 15 DJ TROOPERS (2008031100)
+  - beatmaniaIIDX 16 EMPRESS (2009072200)
+  - beatmaniaIIDX 17 SIRIUS (2010071200)
+  - beatmaniaIIDX 18 Resort Anthem (2011071200)
+  - beatmaniaIIDX 19 Lincle (2012090300)
+  - beatmaniaIIDX 20 tricoro (2013090900)
+  - beatmaniaIIDX 21 SPADA (2014071600)
+  - beatmaniaIIDX 22 PENDUAL (2015080500)
+  - beatmaniaIIDX 23 copula (2016083100)
+  - beatmaniaIIDX 24 SINOBUZ (2017082800)
+  - beatmaniaIIDX 25 CANNON BALLERS (2018091900)
+  - beatmaniaIIDX 26 Rootage (2019090200)
+  - beatmaniaIIDX 27 HEROIC VERSE (2020092900)
+  - beatmaniaIIDX 28 BISTROVER (2021091500)
+  - beatmaniaIIDX 29 CastHour (2022082400)
+  - beatmaniaIIDX 30 RESIDENT (2023090500)
 
 ---
 
 Features
-
   - STEP UP (Partial)
   - SKILL ANALYZER
   - EVENT (Partial)
@@ -42,6 +41,8 @@ Known Issues
   - DJ LEVEL folders are broken in ~ DJ TROOPERS due to missing rank\_id
   - LEGGENDARIA play records before HEROIC VERSE may not display on higher version due to missing conversion code
   - ONE MORE EXTRA STAGE progress won't save (can't test this due to skill issue)
+  - Some of licensed songs are locked behind due to missing license element (needs to be verified)
+  - Badges aren't saving in RESIDENT ~ (needs to figure out name to id)
 
 ---
 
@@ -113,12 +114,12 @@ Changelogs
     - CLEAR RATE and BEGINNER clear lamp may not work on certain versions
   - Added Initial support for SIRIUS
   - Fixed where Venue Top didn't save correctly (BISTROVER ~)
-  - Fixed where music.appoint send empty response even rival has score data when player doesn't have score data
+  - Fixed where music.appoint send empty response even rival has score data but player doesn't have score data
   - Fixed where FAVORITE may work only on specific version
   - Fixed where shop name always displayed as "CORE" instead of saved one
   - Fixed where rlist STEP UP achieve value was fixed value instead of saved one
   - Fixed where fcombo isn't saving (Resort Anthem)
-  - Removed shop.savename as not working as intented.
+  - Removed shop.savename as not working as intented
 
 **v0.1.13**
   - Added Initial support for DJ TROOPERS
@@ -130,3 +131,15 @@ Changelogs
   - Reworked on SINOBUZ ~ Rootage responses
   - Fixed where Base64toBuffer returns invalid value sometimes
   - Fixed where timing display option isn't saving on certain versions
+
+**v0.1.15**
+  - Added Initial support for GOLD
+  - Added Disable Beginner Option
+  - Added Experimental Badge saving support
+  - Added Experimental score Import/Export
+  - Fixed where plugin may fail to register due to missing types in dev mode
+  - Fixed where pacemaker isn't working as intended due to malformed ghost data on music.appoint response (~ DJ TROOPERS)
+  - Fixed where unable to login after first-play (SPADA, SINOBUZ, Rootage)
+  - Fixed where pacemaker isn't working as intented due to wrong condition check (HEROIC VERSE ~)
+  - Fixed where pacemaker sub-type isn't load correctly (HEROIC VERSE ~)
+  - Fixed where QPRO doesn't get saved in WebUI

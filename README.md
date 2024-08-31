@@ -4,13 +4,16 @@
 
 ## Credits:
 - [22vv0](https://github.com/22vv0?tab=repositories) - SDVX plugin fork
-- [duel0213](https://github.com/duel0213?tab=repositories) - IIDX Plugin for IIDX 15-30
+- [duel0213](https://github.com/duel0213?tab=repositories) - IIDX Plugin for IIDX 14-30
 - [RoxCian](https://github.com/RoxCian?tab=repositories) - Reflec Beat
 - [yuanqiuye](https://github.com/yuanqiuye?tab=repositories) - jubeat Ave. support
 - rest is maintained by the community
 
+Please check out the original repositories and download from them (for example 22vv0 has a plugin for WORLD that isn't on here)
+
 ## Supported versions
 ### beatmania IIDX
+- beatmania IIDX 14 GOLD
 - beatmania IIDX 15 DJ TROOPERS
 - beatmania IIDX 16 EMPRESS
 - beatmania IIDX 17 SIRIUS
@@ -20,7 +23,7 @@
 - beatmania IIDX 21 SPADA
 - beatmania IIDX 22 PENDUAL
 - beatmania IIDX 23 copula
-- beatmania IIDX 24 SINOBUZ (didn't work for me when importing from another version)
+- beatmania IIDX 24 SINOBUZ (~~didn't work for me when importing from another version~~, it maybe changed now)
 - beatmania IIDX 25 CANNON BALLERS
 - beatmania IIDX 26 ROOTAGE
 - beatmania IIDX 27 HEROIC VERSE

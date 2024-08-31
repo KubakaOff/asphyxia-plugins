@@ -95,7 +95,7 @@ export const common: EPR = async (info, data, send) => {
         if(foundSongIndex != -1) {
           var songData = mdb.mdb.music[foundSongIndex];
           if(gameVersion === 6 || gameVersion === -6) {
-            if(parseInt(songData['info']['distribution_date']['#text']) > currentYMDDate) {
+            if('distribution_date' in songData['info'] && parseInt(songData['info']['distribution_date']['#text']) > currentYMDDate) {
               console.log("Unreleased song: " + songData.info.title_name)
             }
             else {
@@ -106,7 +106,7 @@ export const common: EPR = async (info, data, send) => {
                 if(LICENSED_SONGS6.includes(i.toString())) {
                   limitedNo += 1;
                 }
-                else if(VALKYRIE_SONGS.includes(i.toString()) && (!U.GetConfig('enable_valk_songs') && info.model.split(":")[2].match(/^(G|H)$/g) == null)){
+                else if(VALKYRIE_SONGS.includes(i.toString()) && info.model.split(":")[2].match(/^(G|H)$/g) == null){
                   limitedNo -= 1;
                 }
                 for(let j = 0; j < 5; j++) {
@@ -194,21 +194,10 @@ export const common: EPR = async (info, data, send) => {
       let eventData = JSON.parse(bufEventData.toString())
       let eventConfig = JSON.parse(bufEventConfig.toString())
       for(const eventIter in eventData['events']) {
+        let stmpEvntInfo = STAMP_EVENTS6[eventData['events'][eventIter]['id']]
         if(eventData['events'][eventIter]['type'] === 'stamp' && eventConfig[eventData['events'][eventIter]['id']] !== undefined && eventConfig[eventData['events'][eventIter]['id']]['toggle']) {
-          let stmpEvntInfo = STAMP_EVENTS6[eventData['events'][eventIter]['id']]
-          let prmStr1Sel = ''
-
           for(const stmpDataIter in stmpEvntInfo['info']['data']) {
-            let stmpRwrd = stmpEvntInfo['info']['data'][stmpDataIter]['stprwrd']
-            let prmStr5 = ''
-            let sSheetName = (stmpRwrd[stmpRwrd.length - 1][1] === 'crew') ? stmpRwrd[stmpRwrd.length - 1][3] : stmpRwrd[stmpRwrd.length - 1][2]
-            prmStr1Sel += stmpEvntInfo['info']['data'][stmpDataIter]['stmpid'] + '#' + stmpEvntInfo['info']['data'][stmpDataIter]['bnr'] + '#' + itemTypeList[stmpRwrd[stmpRwrd.length - 1][1]] + '#' + sSheetName + (stmpEvntInfo['info']['data'].length - 1 === parseInt(stmpDataIter) ? '' : ',')
-            for(const stmpRwrdIter in stmpRwrd) {
-              let iID = stmpRwrd[stmpRwrdIter][2]
-              if (stmpRwrd[stmpRwrdIter][1] === 'track' || stmpRwrd[stmpRwrdIter][1] === 'prereq') iID += stmpRwrd[stmpRwrdIter][3]
-              prmStr5 += stmpRwrd[stmpRwrdIter][0] + ':' + itemTypeList[stmpRwrd[stmpRwrdIter][1]] + ':' + iID + (stmpRwrd.length - 1 === parseInt(stmpRwrdIter) ? '' : ' ')
-            }
-            let newSelMainExtend = {
+            extend.push({
               'type': 3,
               'id': stmpEvntInfo['info']['data'][stmpDataIter]['stmpid'],
               'params': [
@@ -221,14 +210,13 @@ export const common: EPR = async (info, data, send) => {
                 stmpEvntInfo['info']['stmpHd'],
                 '',
                 stmpEvntInfo['info']['stmpFt'],
-                prmStr5
+                stmpEvntInfo['info']['data'][stmpDataIter]['stprwrd']
               ]
-            }
-            extend.push(newSelMainExtend)
+            })
           }
 
           if(stmpEvntInfo['type'] === 'select') {
-            let newSelExtend = {
+            extend.push({
               'type': 3,
               'id': stmpEvntInfo['info']['id'],
               'params': [
@@ -237,16 +225,56 @@ export const common: EPR = async (info, data, send) => {
                 0,
                 0,
                 0,
-                prmStr1Sel,
+                stmpEvntInfo['info']['sheet'],
                 '',
                 stmpEvntInfo['info']['stmpSlHd'],
                 stmpEvntInfo['info']['stmpSlFt'],
                 stmpEvntInfo['info']['stmpBg']
               ]
-            }
-            extend.push(newSelExtend)
+            })
           }
         }
+        else if(eventData['events'][eventIter]['type'] === 'completestamp' && eventConfig[eventData['events'][eventIter]['id']] !== undefined && eventConfig[eventData['events'][eventIter]['id']]['toggle']) {
+          extend.push({
+            'type': 19,
+            'id': stmpEvntInfo['info']['id'],
+            'params': [
+              0, 0, 0, 0, 0,
+              JSON.stringify(stmpEvntInfo['info']['data']),
+              '',
+              '',
+              '',
+              ''
+            ]
+          })
+        }
+        else if(eventData['events'][eventIter]['type'] === 'tama' && eventConfig[eventData['events'][eventIter]['id']] !== undefined && eventConfig[eventData['events'][eventIter]['id']]['toggle']) {
+          events.push('TAMAADV_ENABLE')
+          extend.push({
+            'type': 20,
+            'id': stmpEvntInfo['info']['id'],
+            'params': [
+              0, 0, 0, 0, 0,
+              (U.GetConfig('tama_track_lib') ? '0,' : '') + stmpEvntInfo['info']['list'],
+              '',
+              '',
+              '',
+              ''
+            ]
+          })
+        }
+      }
+    }
+
+    if(IO.Exists('handlers/test.json')) {
+      let bufTest = await IO.ReadFile('handlers/test.json')
+      let extendTest = JSON.parse(bufTest.toString())
+      for(const ex in extendTest) {
+        extend.push({
+          'type': extendTest[ex]['type'],
+          'id': extendTest[ex]['id'],
+          'params': extendTest[ex]['params']
+        })
       }
     }
       

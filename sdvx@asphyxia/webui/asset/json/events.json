@@ -262,6 +262,46 @@
                 "Song 2: 'Deep tenDon Reflex.'",
                 "Song 3: 'Ambivalent Vermilia.'"
             ]
+        },
+        {
+            "id": "bpls3sdvxfinal",
+            "type": "completestamp",
+            "enabled": true,
+            "name": "BPL S3 コンプリートスタンプ | BPL S3 Complete Stamp Event",
+            "desc": "Stamp event to unlock the BPL S3 SDVX Semifinal songs (Xeno Gravity, Cuz we <3 this Game) and the Final song (NEMSYS ARENA World Hexathlon.)<br>Clear the songs displayed on the sheet to earn their stamps. A total of 23 stamps can be obtained.",
+            "info": "Toggle this option to enable this complete stamp event."
+        },
+        {
+            "id": "minigracegift",
+            "type": "gift_crew",
+            "enabled": true,
+            "name": "Mini Grace NEMSYS Crew Gift",
+            "desc": "Sent to people who bought tickets for the BPL S3 SDVX Finals event.",
+            "info": "Toggle this on to automatically get the item."
+        },
+        {
+            "id": "bpls3stamp",
+            "type": "stamp",
+            "enabled": true,
+            "name": "BEMANI PRO LEAGUE -SEASON 3- Special Stamp",
+            "desc": "Similar to BPL S2 stamp event (SuddeИDeath,) this is an event to unlock 10 songs, including { eXLIPXe }. Songs can be unlocked in any order, except for { eXLIPXe }, which will be available to unlock for 30 stamps once all the other songs are unlocked.",
+            "info": "Toggle this on to enable this stamp event."
+        },
+        {
+            "id": "tamaadv",
+            "type": "tama",
+            "enabled": true,
+            "name": "TAMA猫アドベンチャー (TAMANEKO Adventure)",
+            "desc": "New unlock system where you complete map missions to earn TAMANEKO food. New and XCD charts are available to unlock, as well as a 'Track Liberation' and 'OVER ADVENTURE' feature.",
+            "info": "Toggle to enable/disable event."
+        },
+        {
+            "id": "reflecstamp2",
+            "type": "stamp",
+            "enabled": true,
+            "name": "REFLEC BEAT Song Stamp Event (2024)",
+            "desc": "Stamp event to unlock 5 more songs originally from the REFLEC BEAT game series.",
+            "info": "Toggle this on to enable this stamp event."
         }
     ],
     "flags": [
@@ -286,7 +326,7 @@
         {
             "id": "demoloopinfo",
             "key": "DEMOLOOP_INFORMATION",
-            "str": "DEMOLOOP_INFORMATION\tdemo_info/240129_bpls3_streaming.png",
+            "str": "DEMOLOOP_INFORMATION\tdemo_info/240604_bpls4iidx_demo.png",
             "explain": "Enables display of available information in attract mode."
         },
         {

@@ -24,7 +24,7 @@ export const EVENT6 = [
   'PLAYERJUDGEADJ_ENABLE',
   'MIXID_INPUT_ENABLE',
   'DISP_PASELI_BANNER',
-  'CHARACTER_IGNORE_DISABLE\t122,123,131,139,140,143,149',
+  'CHARACTER_IGNORE_DISABLE\t122,123,131,139,140,143,149,160',
   'OMEGA_ENABLE\t1,2,3,4,5,6,7,8,9',
   'OMEGA_ARS_ENABLE',
   'HEXA_ENABLE\t1,2,3,4,5,6,7,8,9,10',
@@ -65,24 +65,12 @@ export const LICENSED_SONGS6 = [
   '1471', '1477', '1634', '1635', '1636', '1637', '1649', '1650', '1653', '1654',
   '1655', '1657', '1658', '1739', '1740', '1741', '1744', '1753', '1754', '1755', 
   '1756', '1757', '1758', '1759', '1760', '1761', '1810', '1813', '1814', '1821', 
-  '1866', '1867', '1871', '1872', '1873', '1874',
-  // 0726 - 1018
-  '1857', '1858', '1860', '1861', '1862', '1856', '1859', '1863', '1864', '1865',
-  '1903', '1904', '1911', '1916', '1917',
-  // 230228 - 230425
-  '1960', '1961', '1962', '2028', '2029', '1912', '1913', '2030',
-  // 230518 - 230912
-  '2031', '2032', '2033', '2034', '2035', '2036', '1905', '1882', '2058',
-  // 231005
-  '2069', '2070', '2071', '2072', '2073',
-  // 231107
-  '2074', '2075',
-  // 231219
-  '2076',
-  // 240116
-  '2066', '2067', '2068',
-  // 240220
-  '2165', '2166', '2167'
+  '1866', '1867', '1871', '1872', '1873', '1874', '1857', '1858', '1860', '1861', 
+  '1862', '1856', '1859', '1863', '1864', '1865', '1903', '1904', '1911', '1916', 
+  '1917', '1960', '1961', '1962', '2028', '2029', '1912', '1913', '2030', '2031',
+  '2032', '2033', '2034', '2035', '2036', '1905', '1882', '2058', '2069', '2070',
+  '2071', '2072', '2073', '2074', '2075', '2076', '2066', '2067', '2068', '2165',
+  '2166', '2167', '2172', '2173', '2174', '2175', '2184'
 ]
 
 export const STAMP_EVENTS6 = {
@@ -95,62 +83,42 @@ export const STAMP_EVENTS6 = {
       'stmpHd': '[sz:22][c:DAC491]SPECIAL STAMP BONUS',
       'stmpFt': '[sz:22]YOU CAN GET A STAMP AND BONUS! :)[br:5]TERM: 1/18～3/21',
       'stmpBg': 'bg_stamp_anniversary_10th',
+      'sheet': '1#sheet_track_1#e#1838,2#sheet_track_2#e#1839,3#sheet_track_3#e#1840,4#sheet_track_4#e#1841,5#sheet_track_5#e#1842,6#sheet_track_6#e#1843,7#sheet_track_7#e#1844',
       'data': [
         {
           'stmpid': 1,
-          'bnr': 'sheet_track_1',
           'stps': 5,
-          'stprwrd': [
-            ['5', 'track', '1838', '23']
-          ]
+          'stprwrd': '5:e:183823'
         },
         {
           'stmpid': 2,
-          'bnr': 'sheet_track_2',
           'stps': 5,
-          'stprwrd': [
-            ['5', 'track', '1839', '23']
-          ]
+          'stprwrd': '5:e:183923'
         },
         {
           'stmpid': 3,
-          'bnr': 'sheet_track_3',
           'stps': 5,
-          'stprwrd': [
-            ['5', 'track', '1840', '23']
-          ]
+          'stprwrd': '5:e:184023'
         },
         {
           'stmpid': 4,
-          'bnr': 'sheet_track_4',
           'stps': 5,
-          'stprwrd': [
-            ['5', 'track', '1841', '23']
-          ]
+          'stprwrd': '5:e:184123'
         },
         {
           'stmpid': 5,
-          'bnr': 'sheet_track_5',
           'stps': 5,
-          'stprwrd': [
-            ['5', 'track', '1842', '23']
-          ]
+          'stprwrd': '5:e:184223'
         },
         {
           'stmpid': 6,
-          'bnr': 'sheet_track_6',
           'stps': 5,
-          'stprwrd': [
-            ['5', 'track', '1843', '23']
-          ]
+          'stprwrd': '5:e:184323'
         },
         {
           'stmpid': 7,
-          'bnr': 'sheet_track_7',
           'stps': 5,
-          'stprwrd': [
-            ['5', 'track', '1844', '23']
-          ]
+          'stprwrd': '5:e:184423'
         }
       ]
     }
@@ -159,23 +127,13 @@ export const STAMP_EVENTS6 = {
     'type': 'main',
     'info': {
       'id': 0,
-      'stmpSlHd': '',
-      'stmpSlFt': '',
       'stmpHd': '[sz:22][c:DAC491]SPECIAL STAMP BONUS',
       'stmpFt': '[sz:22]YOU CAN GET A STAMP AND BONUS! :)[br:5]TERM: 3/30～5/8',
-      'stmpBg': '',
       'data': [
         {
           'stmpid': 8,
-          'bnr': '',
           'stps': 15,
-          'stprwrd': [
-            ['1', 'track', '1853', '23'],
-            ['3', 'track', '1851', '23'],
-            ['6', 'track', '1852', '23'],
-            ['10', 'track', '1850', '23'],
-            ['15', 'track', '1854', '23'],
-          ]
+          'stprwrd': '1:e:185323 3:e:185123 6:e:185223 10:e:185023 15:e:185423'
         }
       ]
     }
@@ -184,23 +142,13 @@ export const STAMP_EVENTS6 = {
     'type': 'main',
     'info': {
       'id': 0,
-      'stmpSlHd': '',
-      'stmpSlFt': '',
       'stmpHd': '[sz:22][c:DAC491]SPECIAL STAMP BONUS',
       'stmpFt': '[sz:22]YOU CAN GET A STAMP AND BONUS! :)[br:5]TERM: 12/8～1/15',
-      'stmpBg': '',
       'data': [
         {
           'stmpid': 9,
-          'bnr': '',
           'stps': 5,
-          'stprwrd': [
-            ['1', 'pcb', '500', ''],
-            ['2', 'pcb', '500', ''],
-            ['3', 'pcb', '1000', ''],
-            ['4', 'pcb', '1000', ''],
-            ['5', 'pcb', '2000', ''],
-          ]
+          'stprwrd': '1:b:500 2:b:500 3:b:1000 4:b:1000 5:b:2000'
         }
       ]
     }
@@ -209,19 +157,13 @@ export const STAMP_EVENTS6 = {
     'type': 'main',
     'info': {
       'id': 0,
-      'stmpSlHd': '',
-      'stmpSlFt': '',
       'stmpHd': '[sz:22]SPECIAL STAMP BONUS',
       'stmpFt': '[sz:22]YOU CAN GET A STAMP AND BONUS! :)[br:5]TERM: 1/1～1/9',
-      'stmpBg': '',
       'data': [
         {
           'stmpid': 10,
-          'bnr': '',
           'stps': 1,
-          'stprwrd': [
-            ['1', 'appeal', '5522', '']
-          ]
+          'stprwrd': '1:a:5522'
         }
       ]
     }
@@ -235,50 +177,17 @@ export const STAMP_EVENTS6 = {
       'stmpHd': '[sz:22][c:DAC491]SPECIAL STAMP BONUS',
       'stmpFt': '[sz:22]YOU CAN GET A STAMP AND BONUS! :)[br:5]TERM: 4/7～5/8',
       'stmpBg': 'bg_stamp_himehina',
+      'sheet': '11#sheet_crew_1#c#ネメシスクルー田中ヒメ,12#sheet_crew_2#c#ネメシスクルー鈴木ヒナ',
       'data': [
         {
           'stmpid': 11,
-          'bnr': 'sheet_crew_1',
           'stps': 15,
-          'stprwrd': [
-            ['1', 'pcb', '100', ''],
-            ['2', 'pcb', '100', ''],
-            ['3', 'pcb', '100', ''],
-            ['4', 'pcb', '100', ''],
-            ['5', 'pcb', '1000', ''],
-            ['6', 'pcb', '200', ''],
-            ['7', 'pcb', '200', ''],
-            ['8', 'pcb', '200', ''],
-            ['9', 'pcb', '200', ''],
-            ['10', 'pcb', '2000', ''],
-            ['11', 'pcb', '500', ''],
-            ['12', 'pcb', '500', ''],
-            ['13', 'pcb', '500', ''],
-            ['14', 'pcb', '500', ''],
-            ['15', 'crew', '122', 'ネメシスクルー田中ヒメ']
-          ]
+          'stprwrd': '1:b:100 2:b:100 3:b:100 4:b:100 5:b:1000 6:b:200 7:b:200 8:b:200 9:b:200 10:b:2000 11:b:500 12:b:500 13:b:500 14:b:500 15:c:122',
         },
         {
           'stmpid': 12,
-          'bnr': 'sheet_crew_2',
           'stps': 15,
-          'stprwrd': [
-            ['1', 'pcb', '100', ''],
-            ['2', 'pcb', '100', ''],
-            ['3', 'pcb', '100', ''],
-            ['4', 'pcb', '100', ''],
-            ['5', 'pcb', '1000', ''],
-            ['6', 'pcb', '200', ''],
-            ['7', 'pcb', '200', ''],
-            ['8', 'pcb', '200', ''],
-            ['9', 'pcb', '200', ''],
-            ['10', 'pcb', '2000', ''],
-            ['11', 'pcb', '500', ''],
-            ['12', 'pcb', '500', ''],
-            ['13', 'pcb', '500', ''],
-            ['14', 'pcb', '500', ''],
-            ['15', 'crew', '123', 'ネメシスクルー鈴木ヒナ']
-          ]
+          'stprwrd': '1:b:100 2:b:100 3:b:100 4:b:100 5:b:1000 6:b:200 7:b:200 8:b:200 9:b:200 10:b:2000 11:b:500 12:b:500 13:b:500 14:b:500 15:c:123',
         }
       ]
     }
@@ -287,19 +196,13 @@ export const STAMP_EVENTS6 = {
     'type': 'main',
     'info': {
       'id': 0,
-      'stmpSlHd': '',
-      'stmpSlFt': '',
       'stmpHd': '[sz:22]SPECIAL STAMP BONUS',
       'stmpFt': '[sz:22]YOU CAN GET A STAMP AND BONUS! :)[br:5]TERM: 1/1～1/9',
-      'stmpBg': '',
       'data': [
         {
           'stmpid': 13,
-          'bnr': '',
           'stps': 1,
-          'stprwrd': [
-            ['1', 'appeal', '5523', '']
-          ]
+          'stprwrd': '1:a:5523'
         }
       ]
     }
@@ -314,86 +217,52 @@ export const STAMP_EVENTS6 = {
       'stmpHd': '[sz:22][c:DAC491]BEMANI PRO LEAGUE -SEASON 2- SPECIAL STAMP',
       'stmpFt': '[sz:22]YOU CAN GET STAMPS BY PLAYING SDVX!',
       'stmpBg': 'bg_stamp_bpl',
+      'sheet': '14#sheet_track_1919#e#1919,15#sheet_track_1920#e#1920,16#sheet_track_1921#e#1921,17#sheet_track_1922#e#1922,18#sheet_track_1923#e#1923,19#sheet_track_1924#e#1924,20#sheet_track_1925#e#1925,21#sheet_track_1926#e#1926,22#sheet_track_1938#e#1938',
       'data': [
         {
           'stmpid': 14,
-          'bnr': 'sheet_track_1919',
           'stps': 15,
-          'stprwrd': [
-            ['15', 'track', '1919', '23']
-          ]
+          'stprwrd': '15:e:191923'
         },
         {
           'stmpid': 15,
-          'bnr': 'sheet_track_1920',
           'stps': 15,
-          'stprwrd': [
-            ['15', 'track', '1920', '23']
-          ]
+          'stprwrd': '15:e:192023'
         },
         {
           'stmpid': 16,
-          'bnr': 'sheet_track_1921',
           'stps': 15,
-          'stprwrd': [
-            ['15', 'track', '1921', '23']
-          ]
+          'stprwrd': '15:e:192123'
         },
         {
           'stmpid': 17,
-          'bnr': 'sheet_track_1922',
           'stps': 15,
-          'stprwrd': [
-            ['15', 'track', '1922', '23']
-          ]
+          'stprwrd': '15:e:192223'
         },
         {
           'stmpid': 18,
-          'bnr': 'sheet_track_1923',
           'stps': 15,
-          'stprwrd': [
-            ['15', 'track', '1923', '23']
-          ]
+          'stprwrd': '15:e:192323'
         },
         {
           'stmpid': 19,
-          'bnr': 'sheet_track_1924',
           'stps': 15,
-          'stprwrd': [
-            ['15', 'track', '1924', '23']
-          ]
+          'stprwrd': '15:e:192423'
         },
         {
           'stmpid': 20,
-          'bnr': 'sheet_track_1925',
           'stps': 15,
-          'stprwrd': [
-            ['15', 'track', '1925', '23']
-          ]
+          'stprwrd': '15:e:192523'
         },
         {
           'stmpid': 21,
-          'bnr': 'sheet_track_1926',
           'stps': 15,
-          'stprwrd': [
-            ['15', 'track', '1926', '23']
-          ]
+          'stprwrd': '15:e:192623'
         },
         {
           'stmpid': 22,
-          'bnr': 'sheet_track_1938',
           'stps': 30,
-          'stprwrd': [
-            ['0', 'prereq', 'x', '14'],
-            ['0', 'prereq', 'x', '15'],
-            ['0', 'prereq', 'x', '16'],
-            ['0', 'prereq', 'x', '17'],
-            ['0', 'prereq', 'x', '18'],
-            ['0', 'prereq', 'x', '19'],
-            ['0', 'prereq', 'x', '20'],
-            ['0', 'prereq', 'x', '21'],
-            ['30', 'track', '1938', '23']
-          ]
+          'stprwrd': '0:r:x14 0:r:x15 0:r:x16 0:r:x17 0:r:x18 0:r:x19 0:r:x20 0:r:x21 30:e:193823'
         }
       ]
     }
@@ -402,19 +271,13 @@ export const STAMP_EVENTS6 = {
     'type': 'main',
     'info': {
       'id': 0,
-      'stmpSlHd': '',
-      'stmpSlFt': '',
       'stmpHd': '[sz:22][c:DAC491]SPECIAL STAMP BONUS',
       'stmpFt': '[sz:22]YOU CAN GET A STAMP AND BONUS! :)[br:5]TERM: 8/9～9/11',
-      'stmpBg': '',
       'data': [
         {
           'stmpid': 23,
-          'bnr': '',
           'stps': 10,
-          'stprwrd': [
-            ['10', 'track', '2060', '23'],
-          ]
+          'stprwrd': '10:e:206023'
         }
       ]
     }
@@ -428,22 +291,17 @@ export const STAMP_EVENTS6 = {
       'stmpHd': '[sz:22][c:DAC491]SPECIAL STAMP BONUS',
       'stmpFt': '[sz:22]YOU CAN GET A STAMP AND BONUS! :)[br:5]TERM: 9/20～10/23',
       'stmpBg': 'bg_stamp_kac_11th',
+      'sheet': '24#sheet_track_2061#e#2061,25#sheet_track_2062#e#2062',
       'data': [
         {
           'stmpid': 24,
-          'bnr': 'sheet_track_2061',
           'stps': 10,
-          'stprwrd': [
-            ['10', 'track', '2061', '23']
-          ]
+          'stprwrd': '10:e:206123'
         },
         {
           'stmpid': 25,
-          'bnr': 'sheet_track_2062',
           'stps': 10,
-          'stprwrd': [
-            ['10', 'track', '2062', '23']
-          ]
+          'stprwrd': '10:e:206223'
         }
       ]
     }
@@ -452,28 +310,13 @@ export const STAMP_EVENTS6 = {
     'type': 'main',
     'info': {
       'id': 0,
-      'stmpSlHd': '',
-      'stmpSlFt': '',
       'stmpHd': '[sz:22][c:DAC491]SPECIAL STAMP BONUS',
       'stmpFt': '[sz:22]YOU CAN GET A STAMP AND BONUS! :)[br:5]TERM: 1/1～1/8',
-      'stmpBg': '',
       'data': [
         {
           'stmpid': 26,
-          'bnr': '',
           'stps': 10,
-          'stprwrd': [
-            ['1', 'appeal', '5526', ''],
-            ['2', 'pcb', '2024', ''],
-            ['3', 'pcb', '2024', ''],
-            ['4', 'pcb', '2024', ''],
-            ['5', 'pcb', '2024', ''],
-            ['6', 'pcb', '2024', ''],
-            ['7', 'pcb', '2024', ''],
-            ['8', 'pcb', '2024', ''],
-            ['9', 'pcb', '2024', ''],
-            ['10', 'pcb', '4649', '']
-          ]
+          'stprwrd': '1:a:5526 2:b:2024 3:b:2024 4:b:2024 5:b:2024 6:b:2024 7:b:2024 8:b:2024 9:b:2024 10:b:4649'
         }
       ]
     }
@@ -482,19 +325,13 @@ export const STAMP_EVENTS6 = {
     'type': 'main',
     'info': {
       'id': 0,
-      'stmpSlHd': '',
-      'stmpSlFt': '',
       'stmpHd': '[sz:22][c:DAC491]SPECIAL STAMP BONUS',
       'stmpFt': '[sz:22]YOU CAN GET A STAMP AND BONUS! :)[br:5]TERM: 1/18～2/4',
-      'stmpBg': '',
       'data': [
         {
           'stmpid': 27,
-          'bnr': '',
           'stps': 1,
-          'stprwrd': [
-            ['1', 'appeal', '5527', '']
-          ]
+          'stprwrd': '1:a:5527'
         }
       ]
     }
@@ -503,36 +340,132 @@ export const STAMP_EVENTS6 = {
     'type': 'main',
     'info': {
       'id': 0,
-      'stmpSlHd': '',
-      'stmpSlFt': '',
       'stmpHd': '[sz:22][c:DAC491]SPECIAL STAMP BONUS',
       'stmpFt': '[sz:22]YOU CAN GET A STAMP AND BONUS! :)[br:5]TERM: 1/1～1/8',
-      'stmpBg': '',
       'data': [
         {
           'stmpid': 28,
-          'bnr': '',
           'stps': 10,
-          'stprwrd': [
-            ['1', 'pcb', '329', ''],
-            ['2', 'pcb', '329', ''],
-            ['3', 'pcb', '329', ''],
-            ['4', 'pcb', '329', ''],
-            ['5', 'pcb', '1009', ''],
-            ['6', 'pcb', '329', ''],
-            ['7', 'pcb', '329', ''],
-            ['8', 'pcb', '329', ''],
-            ['9', 'pcb', '329', ''],
-            ['10', 'pcb', '1009', ''],
-
-          ]
+          'stprwrd': '1:b:329 2:b:329 3:b:329 4:b:329 5:b:1009 6:b:329 7:b:329 8:b:329 9:b:329 10:b:1009'
+        }
+      ]
+    }
+  },
+  'bpls3sdvxfinal': {
+    'type': 'comp',
+    'info': {
+      'id': 1,
+      'data': {
+        "id": 1,
+        "compo": "stamp_complete_bpls3",
+        "requires": [
+            { "id": 2129, "grades": [0] }, { "id": 2130, "grades": [0] }, { "id": 2131, "grades": [0] },
+            { "id": 2132, "grades": [0] }, { "id": 2133, "grades": [0] }, { "id": 2134, "grades": [0] },
+            { "id": 2135, "grades": [0] }, { "id": 2136, "grades": [0] }, { "id": 2137, "grades": [0] },
+            { "id": 2138, "grades": [0] }, { "id": 2139, "grades": [0] }, { "id": 2140, "grades": [0] },
+            { "id": 2141, "grades": [0] }, { "id": 2142, "grades": [0] }, { "id": 2143, "grades": [0] },
+            { "id": 2144, "grades": [0] }, { "id": 2145, "grades": [0] }, { "id": 2146, "grades": [0] },
+            { "id": 2147, "grades": [0] }, { "id": 2148, "grades": [0] }, { "id": 2149, "grades": [0] },
+            { "id": 2151, "grades": [0] }, { "id": 2150, "grades": [0] }, { "id": 2152, "grades": [0] }
+        ],
+        "rewards":[
+            { "id": 2151, "grades": [0, 1, 2, 4], "needStamp": 7 },
+            { "id": 2150, "grades": [0, 1, 2, 4], "needStamp": 14 },
+            { "id": 2152, "grades": [0, 1, 2, 4], "needStamp": 23 }
+        ]
+      }
+    }
+  },
+  'bpls3stamp': {
+    'type': 'select',
+    'info': {
+      'id': 5,
+      'textstampval': -1,
+      'stmpSlHd': '[sz:22][c:FFA6AA]BEMANI PRO LEAGUE -SEASON 3- SPECIAL STAMP',
+      'stmpSlFt': '[sz:23]{TextStamp}[br:5]{TextTerm} 2024/05/02～2024/05/31',
+      'stmpHd': '[sz:22][c:DAC491]BEMANI PRO LEAGUE -SEASON 3- SPECIAL STAMP',
+      'stmpFt': '[sz:22]YOU CAN GET STAMPS BY PLAYING SDVX!',
+      'stmpBg': 'bg_stamp_bpls3',
+      'sheet': '29#sheet_track_2121#e#2121,30#sheet_track_2122#e#2122,31#sheet_track_2123#e#2123,32#sheet_track_2124#e#2124,33#sheet_track_2125#e#2125,34#sheet_track_2126#e#2126,35#sheet_track_2127#e#2127,36#sheet_track_2128#e#2128,37#sheet_track_2160#e#2160,38#sheet_track_2161#e#2161',
+      'data': [
+        {
+          'stmpid': 29,
+          'stps': 15,
+          'stprwrd': '15:e:212123'
+        },
+        {
+          'stmpid': 30,
+          'stps': 15,
+          'stprwrd': '15:e:212223'
+        },
+        {
+          'stmpid': 31,
+          'stps': 15,
+          'stprwrd': '15:e:212323'
+        },
+        {
+          'stmpid': 32,
+          'stps': 15,
+          'stprwrd': '15:e:212423'
+        },
+        {
+          'stmpid': 33,
+          'stps': 15,
+          'stprwrd': '15:e:212523'
+        },
+        {
+          'stmpid': 34,
+          'stps': 15,
+          'stprwrd': '15:e:212623'
+        },
+        {
+          'stmpid': 35,
+          'stps': 15,
+          'stprwrd': '15:e:212723'
+        },
+        {
+          'stmpid': 36,
+          'stps': 15,
+          'stprwrd': '15:e:212823'
+        },
+        {
+          'stmpid': 37,
+          'stps': 15,
+          'stprwrd': '15:e:216023'
+        },
+        {
+          'stmpid': 38,
+          'stps': 30,
+          'stprwrd': '0:r:x29 0:r:x30 0:r:x31 0:r:x32 0:r:x33 0:r:x34 0:r:x35 0:r:x36 0:r:x37 30:e:216123'
+        }
+      ]
+    }
+  },
+  'tamaadv': {
+    'type': 'tama',
+    'info': {
+      'id': 39,
+      'list': '1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18'
+    }
+  },
+  'reflecstamp2': {
+    'type': 'main',
+    'info': {
+      'id': 0,
+      'stmpHd': '[sz:22][c:DAC491]SPECIAL STAMP BONUS',
+      'stmpFt': '[sz:22]YOU CAN GET A STAMP AND BONUS! :)[br:5]TERM: 8/1～9/23',
+      'data': [
+        {
+          'stmpid': 40,
+          'stps': 15,
+          'stprwrd': '1:e:205323 3:e:205723 6:e:205623 10:e:205523 15:e:205423'
         }
       ]
     }
   }
 }
 
-export const EVENT_SONGS6 = {
+export const EVENT_ITEMS6 = {
   // X-Record songs
   'xrecord_1_1': ['1737'],
   'xrecord_1_2': ['1738'],
@@ -603,7 +536,9 @@ export const EVENT_SONGS6 = {
   // BPL S3 Triple Tribe 2
   "bpls3tripletribe2_1": ['2162'],
   "bpls3tripletribe2_2": ['2163'],
-  "bpls3tripletribe2_3": ['2164']
+  "bpls3tripletribe2_3": ['2164'],
+  // Mini Grace crew gift
+  "minigracegift": ['159']
 }
 
 export const APRILFOOLSSONGS = [
@@ -624,9 +559,9 @@ export const ARENA = {
       rule: 0,
       rank_match_target: 0,
       time_start: BigInt(Date.parse('25 Apr 2022 00:00:00 GMT')),
-      time_end: BigInt(Date.parse('31 Dec 2099 23:59:59 GMT')),
+      time_end: BigInt(Date.parse('05 Jun 2022 23:59:59 GMT')),
       shop_start: BigInt(Date.parse('25 Apr 2022 00:00:00 GMT')),
-      shop_end: BigInt(Date.parse('31 Dec 2099 23:59:59 GMT')),
+      shop_end: BigInt(Date.parse('05 Jun 2022 23:59:59 GMT')),
       is_open: 1,
       is_shop: 1
     },
@@ -727,9 +662,9 @@ export const ARENA = {
       rule: 1,
       rank_match_target: 0,
       time_start: BigInt(Date.parse('30 Jun 2022 00:00:00 GMT')),
-      time_end: BigInt(Date.parse('31 Dec 2099 23:59:59 GMT')),
+      time_end: BigInt(Date.parse('14 Aug 2022 23:59:59 GMT')),
       shop_start: BigInt(Date.parse('30 Jun 2022 00:00:00 GMT')),
-      shop_end: BigInt(Date.parse('31 Dec 2099 23:59:59 GMT')),
+      shop_end: BigInt(Date.parse('14 Aug 2022 23:59:59 GMT')),
       is_open: 1,
       is_shop: 1
     },
@@ -798,9 +733,9 @@ export const ARENA = {
       rule: 1,
       rank_match_target: 0,
       time_start: BigInt(Date.parse('01 Sep 2022 00:00:00 GMT')),
-      time_end: BigInt(Date.parse('31 Dec 2099 23:59:59 GMT')),
+      time_end: BigInt(Date.parse('02 Oct 2022 23:59:59 GMT')),
       shop_start: BigInt(Date.parse('01 Sep 2022 00:00:00 GMT')),
-      shop_end: BigInt(Date.parse('31 Dec 2099 23:59:59 GMT')),
+      shop_end: BigInt(Date.parse('02 Oct 2022 23:59:59 GMT')),
       is_open: 1,
       is_shop: 1
     },
@@ -810,7 +745,7 @@ export const ARENA = {
         catalog_type: 1,
         price: 15000,
         item_type: 11,
-        item_id: 104, // nana v
+        item_id: 104,
         param: 1,
       },
       {
@@ -818,7 +753,7 @@ export const ARENA = {
         catalog_type: 1,
         price: 8000,
         item_type: 0,
-        item_id: 1743, // revvable engine
+        item_id: 1743,
         param: 23,
       },
       {
@@ -869,9 +804,9 @@ export const ARENA = {
       rule: 1,
       rank_match_target: 0,
       time_start: BigInt(Date.parse('20 Oct 2022 00:00:00 GMT')),
-      time_end: BigInt(Date.parse('31 Dec 2099 23:59:59 GMT')),
+      time_end: BigInt(Date.parse('13 Nov 2022 23:59:59 GMT')),
       shop_start: BigInt(Date.parse('20 Oct 2022 00:00:00 GMT')),
-      shop_end: BigInt(Date.parse('31 Dec 2099 23:59:59 GMT')),
+      shop_end: BigInt(Date.parse('13 Nov 2022 23:59:59 GMT')),
       is_open: 1,
       is_shop: 1
     },
@@ -895,7 +830,7 @@ export const ARENA = {
       {
         catalog_id: 1,
         catalog_type: 1,
-        price: 8000,
+        price: 15000,
         item_type: 0,
         item_id: 1902,
         param: 23,
@@ -980,9 +915,9 @@ export const ARENA = {
       rule: 1,
       rank_match_target: 0,
       time_start: BigInt(Date.parse('22 Dec 2022 00:00:00 GMT')),
-      time_end: BigInt(Date.parse('31 Dec 2099 23:59:59 GMT')),
+      time_end: BigInt(Date.parse('16 Jan 2023 23:59:59 GMT')),
       shop_start: BigInt(Date.parse('22 Dec 2022 00:00:00 GMT')),
-      shop_end: BigInt(Date.parse('31 Dec 2099 23:59:59 GMT')),
+      shop_end: BigInt(Date.parse('16 Jan 2023 23:59:59 GMT')),
       is_open: 1,
       is_shop: 1
     },
@@ -1059,9 +994,9 @@ export const ARENA = {
       rule: 1,
       rank_match_target: 0,
       time_start: BigInt(Date.parse('16 Feb 2023 00:00:00 GMT')),
-      time_end: BigInt(Date.parse('31 Dec 2099 23:59:59 GMT')),
+      time_end: BigInt(Date.parse('13 Mar 2023 23:59:59 GMT')),
       shop_start: BigInt(Date.parse('16 Feb 2023 00:00:00 GMT')),
-      shop_end: BigInt(Date.parse('31 Dec 2099 23:59:59 GMT')),
+      shop_end: BigInt(Date.parse('13 Mar 2023 23:59:59 GMT')),
       is_open: 1,
       is_shop: 1
     },
@@ -1130,9 +1065,9 @@ export const ARENA = {
       rule: 1,
       rank_match_target: 1,
       time_start: BigInt(Date.parse('27 Apr 2023 00:00:00 GMT')),
-      time_end: BigInt(Date.parse('31 Dec 2099 23:59:59 GMT')),
+      time_end: BigInt(Date.parse('15 May 2023 23:59:59 GMT')),
       shop_start: BigInt(Date.parse('27 Apr 2023 00:00:00 GMT')),
-      shop_end: BigInt(Date.parse('31 Dec 2099 23:59:59 GMT')),
+      shop_end: BigInt(Date.parse('15 May 2023 23:59:59 GMT')),
       is_open: 1,
       is_shop: 1
     },
@@ -1156,7 +1091,7 @@ export const ARENA = {
       {
         catalog_id: 1,
         catalog_type: 1,
-        price: 8000,
+        price: 4000,
         item_type: 0,
         item_id: 786,
         param: 8,
@@ -1164,7 +1099,7 @@ export const ARENA = {
       {
         catalog_id: 1,
         catalog_type: 1,
-        price: 8000,
+        price: 4000,
         item_type: 0,
         item_id: 787,
         param: 8,
@@ -1172,7 +1107,7 @@ export const ARENA = {
       {
         catalog_id: 1,
         catalog_type: 1,
-        price: 8000,
+        price: 4000,
         item_type: 0,
         item_id: 788,
         param: 8,
@@ -1180,7 +1115,7 @@ export const ARENA = {
       {
         catalog_id: 1,
         catalog_type: 1,
-        price: 4000,
+        price: 8000,
         item_type: 0,
         item_id: 789,
         param: 8,
@@ -1188,7 +1123,7 @@ export const ARENA = {
       {
         catalog_id: 1,
         catalog_type: 1,
-        price: 4000,
+        price: 8000,
         item_type: 0,
         item_id: 790,
         param: 8,
@@ -1281,9 +1216,9 @@ export const ARENA = {
       rule: 1,
       rank_match_target: 1,
       time_start: BigInt(Date.parse('8 Jun 2023 00:00:00 GMT')),
-      time_end: BigInt(Date.parse('31 Dec 2099 23:59:59 GMT')),
+      time_end: BigInt(Date.parse('26 Jun 2023 23:59:59 GMT')),
       shop_start: BigInt(Date.parse('8 Jun 2023 00:00:00 GMT')),
-      shop_end: BigInt(Date.parse('31 Dec 2099 23:59:59 GMT')),
+      shop_end: BigInt(Date.parse('26 Jun 2023 23:59:59 GMT')),
       is_open: 1,
       is_shop: 1
     },
@@ -1384,9 +1319,9 @@ export const ARENA = {
       rule: 1,
       rank_match_target: 0,
       time_start: BigInt(Date.parse('13 Jul 2023 00:00:00 GMT')),
-      time_end: BigInt(Date.parse('31 Dec 2099 23:59:59 GMT')),
+      time_end: BigInt(Date.parse('31 Jul 2023 23:59:59 GMT')),
       shop_start: BigInt(Date.parse('13 Jul 2023 00:00:00 GMT')),
-      shop_end: BigInt(Date.parse('31 Dec 2099 23:59:59 GMT')),
+      shop_end: BigInt(Date.parse('31 Jul 2023 23:59:59 GMT')),
       is_open: 1,
       is_shop: 1
     },
@@ -1479,9 +1414,9 @@ export const ARENA = {
       rule: 1,
       rank_match_target: 1,
       time_start: BigInt(Date.parse('17 Aug 2023 00:00:00 GMT')),
-      time_end: BigInt(Date.parse('31 Dec 2099 23:59:59 GMT')),
+      time_end: BigInt(Date.parse('04 Sep 2023 23:59:59 GMT')),
       shop_start: BigInt(Date.parse('17 Aug 2023 00:00:00 GMT')),
-      shop_end: BigInt(Date.parse('31 Dec 2099 23:59:59 GMT')),
+      shop_end: BigInt(Date.parse('04 Sep 2023 23:59:59 GMT')),
       is_open: 1,
       is_shop: 1
     },
@@ -1630,9 +1565,9 @@ export const ARENA = {
       rule: 0,
       rank_match_target: 2,
       time_start: BigInt(Date.parse('26 Oct 2023 00:00:00 GMT')),
-      time_end: BigInt(Date.parse('31 Dec 2099 23:59:59 GMT')),
+      time_end: BigInt(Date.parse('13 Nov 2023 23:59:59 GMT')),
       shop_start: BigInt(Date.parse('26 Oct 2023 00:00:00 GMT')),
-      shop_end: BigInt(Date.parse('31 Dec 2099 23:59:59 GMT')),
+      shop_end: BigInt(Date.parse('13 Nov 2023 23:59:59 GMT')),
       is_open: 1,
       is_shop: 1
     },
@@ -1757,9 +1692,9 @@ export const ARENA = {
       rule: 2,
       rank_match_target: 0,
       time_start: BigInt(Date.parse('21 Dec 2023 00:00:00 GMT')),
-      time_end: BigInt(Date.parse('31 Dec 2099 23:59:59 GMT')),
+      time_end: BigInt(Date.parse('15 Jan 2024 23:59:59 GMT')),
       shop_start: BigInt(Date.parse('21 Dec 2023 00:00:00 GMT')),
-      shop_end: BigInt(Date.parse('31 Dec 2099 23:59:59 GMT')),
+      shop_end: BigInt(Date.parse('15 Jan 2024 23:59:59 GMT')),
       is_open: 1,
       is_shop: 1
     },
@@ -1861,6 +1796,324 @@ export const ARENA = {
         param: 8,
       }
     ]
+  },
+  'Season 13 (ARENA BATTLE 2024/05/02～2024/06/03)': {
+    details: {
+      season: 13,
+      rule: 1,
+      rank_match_target: 0,
+      time_start: BigInt(Date.parse('02 May 2024 00:00:00 GMT')),
+      time_end: BigInt(Date.parse('03 Jun 2024 23:59:59 GMT')),
+      shop_start: BigInt(Date.parse('02 May 2024 00:00:00 GMT')),
+      shop_end: BigInt(Date.parse('03 Jun 2024 23:59:59 GMT')),
+      is_open: 1,
+      is_shop: 1
+    },
+    arena_items: [
+      {
+        catalog_id: 1,
+        catalog_type: 1,
+        price: 2000,
+        item_type: 0,
+        item_id: 85,
+        param: 8,
+      },
+      {
+        catalog_id: 1,
+        catalog_type: 1,
+        price: 4000,
+        item_type: 0,
+        item_id: 389,
+        param: 8,
+      },
+      {
+        catalog_id: 1,
+        catalog_type: 1,
+        price: 8000,
+        item_type: 0,
+        item_id: 635,
+        param: 8,
+      },
+      {
+        catalog_id: 1,
+        catalog_type: 1,
+        price: 8000,
+        item_type: 0,
+        item_id: 2171,
+        param: 23,
+      },
+      {
+        catalog_id: 1,
+        catalog_type: 1,
+        price: 4000,
+        item_type: 0,
+        item_id: 786,
+        param: 8,
+      },
+      {
+        catalog_id: 1,
+        catalog_type: 1,
+        price: 4000,
+        item_type: 0,
+        item_id: 787,
+        param: 8,
+      },
+      {
+        catalog_id: 1,
+        catalog_type: 1,
+        price: 4000,
+        item_type: 0,
+        item_id: 788,
+        param: 8,
+      },
+      {
+        catalog_id: 1,
+        catalog_type: 1,
+        price: 8000,
+        item_type: 0,
+        item_id: 789,
+        param: 8,
+      },
+      {
+        catalog_id: 1,
+        catalog_type: 1,
+        price: 8000,
+        item_type: 0,
+        item_id: 790,
+        param: 8,
+      },
+      {
+        catalog_id: 1,
+        catalog_type: 1,
+        price: 8000,
+        item_type: 0,
+        item_id: 610,
+        param: 8,
+      },
+      {
+        catalog_id: 1,
+        catalog_type: 1,
+        price: 5000,
+        item_type: 0,
+        item_id: 2077,
+        param: 23,
+      },
+      {
+        catalog_id: 1,
+        catalog_type: 1,
+        price: 5000,
+        item_type: 0,
+        item_id: 2078,
+        param: 23,
+      },
+      {
+        catalog_id: 1,
+        catalog_type: 1,
+        price: 15000,
+        item_type: 0,
+        item_id: 1902,
+        param: 23,
+      },
+      {
+        catalog_id: 1,
+        catalog_type: 1,
+        price: 8000,
+        item_type: 0,
+        item_id: 1855,
+        param: 23,
+      },
+      {
+        catalog_id: 1,
+        catalog_type: 1,
+        price: 8000,
+        item_type: 0,
+        item_id: 381,
+        param: 8,
+      },
+      {
+        catalog_id: 1,
+        catalog_type: 1,
+        price: 8000,
+        item_type: 0,
+        item_id: 633,
+        param: 8,
+      },
+      {
+        catalog_id: 1,
+        catalog_type: 1,
+        price: 4000,
+        item_type: 0,
+        item_id: 332,
+        param: 8,
+      },
+      {
+        catalog_id: 1,
+        catalog_type: 1,
+        price: 4000,
+        item_type: 0,
+        item_id: 711,
+        param: 8,
+      },
+      {
+        catalog_id: 1,
+        catalog_type: 1,
+        price: 4000,
+        item_type: 0,
+        item_id: 871,
+        param: 8,
+      },
+      {
+        catalog_id: 1,
+        catalog_type: 1,
+        price: 2000,
+        item_type: 0,
+        item_id: 872,
+        param: 8,
+      },
+      {
+        catalog_id: 1,
+        catalog_type: 1,
+        price: 2000,
+        item_type: 0,
+        item_id: 64,
+        param: 8,
+      },
+      {
+        catalog_id: 1,
+        catalog_type: 1,
+        price: 2000,
+        item_type: 0,
+        item_id: 88,
+        param: 8,
+      }
+    ]
+  },
+  'Season 14 (MEGAMIX BATTLE 2024/07/11～2024/08/13)': {
+    details: {
+      season: 14,
+      rule: 0,
+      rank_match_target: 2,
+      time_start: BigInt(Date.parse('11 Jul 2024 00:00:00 GMT')),
+      time_end: BigInt(Date.parse('13 Aug 2024 23:59:59 GMT')),
+      shop_start: BigInt(Date.parse('11 Jul 2024 00:00:00 GMT')),
+      shop_end: BigInt(Date.parse('13 Aug 2024 23:59:59 GMT')),
+      is_open: 1,
+      is_shop: 1
+    },
+    arena_items: [
+      {
+        catalog_id: 1,
+        catalog_type: 1,
+        price: 5000,
+        item_type: 0,
+        item_id: 2077,
+        param: 23,
+      },
+      {
+        catalog_id: 1,
+        catalog_type: 1,
+        price: 5000,
+        item_type: 0,
+        item_id: 2078,
+        param: 23,
+      },
+      {
+        catalog_id: 1,
+        catalog_type: 1,
+        price: 8000,
+        item_type: 0,
+        item_id: 289,
+        param: 8,
+      },
+      {
+        catalog_id: 1,
+        catalog_type: 1,
+        price: 4000,
+        item_type: 0,
+        item_id: 241,
+        param: 8,
+      },
+      {
+        catalog_id: 1,
+        catalog_type: 1,
+        price: 4000,
+        item_type: 0,
+        item_id: 390,
+        param: 8,
+      },
+      {
+        catalog_id: 1,
+        catalog_type: 1,
+        price: 8000,
+        item_type: 0,
+        item_id: 510,
+        param: 8,
+      },
+      {
+        catalog_id: 1,
+        catalog_type: 1,
+        price: 8000,
+        item_type: 0,
+        item_id: 842,
+        param: 8,
+      },
+      {
+        catalog_id: 1,
+        catalog_type: 1,
+        price: 8000,
+        item_type: 0,
+        item_id: 281,
+        param: 8,
+      },
+      {
+        catalog_id: 1,
+        catalog_type: 1,
+        price: 8000,
+        item_type: 0,
+        item_id: 1745,
+        param: 23,
+      },
+      {
+        catalog_id: 1,
+        catalog_type: 1,
+        price: 8000,
+        item_type: 0,
+        item_id: 1742,
+        param: 23,
+      },
+      {
+        catalog_id: 1,
+        catalog_type: 1,
+        price: 4000,
+        item_type: 0,
+        item_id: 37,
+        param: 8,
+      },
+      {
+        catalog_id: 1,
+        catalog_type: 1,
+        price: 4000,
+        item_type: 0,
+        item_id: 239,
+        param: 8,
+      },
+      {
+        catalog_id: 1,
+        catalog_type: 1,
+        price: 2000,
+        item_type: 0,
+        item_id: 111,
+        param: 8,
+      },
+      {
+        catalog_id: 1,
+        catalog_type: 1,
+        price: 2000,
+        item_type: 0,
+        item_id: 132,
+        param: 8,
+      }
+    ]
   }
 }
 
@@ -1930,6 +2183,16 @@ export const VALGENE = {
       valgene_name: "ヴァルキリージェネレーター　第13弾",
       valgene_name_english: "Valkyrie Generator Vol. 13",
       valgene_id: 13
+    },
+    {
+      valgene_name: "ヴァルキリージェネレーター　第14弾",
+      valgene_name_english: "Valkyrie Generator Vol. 14",
+      valgene_id: 14
+    },
+    {
+      valgene_name: "ヴァルキリージェネレーター 「東方Project」",
+      valgene_name_english: "VALKYRIE GENERATOR 「Touhou Project」",
+      valgene_id: 15
     }
   ],
   rarity: {
@@ -2244,6 +2507,48 @@ export const VALGENE = {
           item_ids: [397, 398, 399, 400, 401, 402, 403, 404, 405, 406, 407, 408, 409, 410, 411, 412, 413, 414, 415, 416, 417, 418]
         }
       ]
+    },
+    {
+      volume: 14,
+      items: [
+        {
+          type: 17,
+          item_ids: [334, 335, 336, 337, 338, 339, 340, 341, 342, 343, 344, 345, 346, 347, 348, 349, 350, 351, 352, 353, 354, 355, 356, 357, 358, 359, 360, 361, 362, 363, 364, 365, 366, 367]
+        },
+        {
+          type: 18,
+          item_ids: [456, 457, 458, 459, 460, 461, 462, 463]
+        },
+        {
+          type: 19,
+          item_ids: [64, 65, 66, 67, 68, 69, 70, 71]
+        },
+        {
+          type: 20,
+          item_ids: [44, 45]
+        }
+      ]
+    },
+    {
+      volume: 15,
+      items: [
+        {
+          type: 17,
+          item_ids: [378, 379, 380, 381, 382, 383]
+        },
+        {
+          type: 18,
+          item_ids: [483, 484, 485, 486, 487, 488, 489, 490, 491, 492, 493, 494, 495, 496, 497]
+        },
+        {
+          type: 19,
+          item_ids: [72, 73, 74, 75, 76, 77, 78, 79, 80]
+        },
+        {
+          type: 20,
+          item_ids: [46]
+        }
+      ]
     }
   ]
 }
@@ -2341,6 +2646,15 @@ export const PREGENE = [
       "sysbg": [17, 18, 19]
     },
     probability: [0.05, 0.39, 0.6, 0.9]
+  },
+  {
+    id: 11,
+    items: {
+      "crew": [160],
+      "stamp": [368, 369, 370, 371, 372, 373, 374, 375, 376, 377],
+      "subbg": [464, 465, 466, 467, 468, 469, 470, 471, 472, 473, 474, 475, 476, 477, 478, 479, 480, 481, 482]
+    },
+    probability: [0.05, 0.39, 0.6]
   }
 ]
   

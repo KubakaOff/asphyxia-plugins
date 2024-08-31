@@ -1,8 +1,8 @@
 # SOUND VOLTEX
 
-**Plugin Version:** fork-6.0.3.0
+**Plugin Version:** fork-6.0.3.5
 
-**Supported game versions:** EXCEED GEAR (2024031801)
+**Supported game versions:** EXCEED GEAR (2024080500)
 
 **Unsupported game versions:** Every other game, as they're untested.
 
@@ -16,46 +16,45 @@
 
 Changelog
 ===========
-## fork-6.0.3.0
+## fork-6.0.3.5
 
 ### New:
 
 1. Main:
-	- Added Premium Generator Set 4 (BPL S3)
-	- Updated events.json to add weeks 6 & 7 of BPL event songs
+	- Reflec Beat song stamp event added (ARACHNE set)
+		- Toggle on "Unlocking Events -> Stamp Events -> REFLEC BEAT Song Stamp Event (2024)"
+	- Added the new maps to TAMANEKO Adventure (3 Touhou songs + 4 XCD charts)
+	- Added VALKYRIE GENERATOR (Touhou Project)
+
+
+## fork-6.0.3.4a
+
+### New:
+
+1. Misc:
+	- Updated webui data.json asset file (renamed some placeholder labels)
+	- Removed most of webui image and audio assets to minimize size.
+		- Run asset update to pull webui assets from game files.
+
+
+## fork-6.0.3.4
+
+### New:
+
+1. Main:
+	- 2024070900 support
+	- Added ARENA season 14 (rank match: MEGAMIX BATTLE)
+		- ARENA STATION set 14 added.
+	- Added TAMANEKO Adventure: new unlock system where you complete map missions and earn food for TAMANEKO. Completing maps unlocks new songs and new XCD charts.
+		- Track Liberation map can be enabled/disabled in the main settings.
+		- Check 'Unlocking Events -> Stamp Events -> TAMA猫アドベンチャー (TAMANEKO Adventure)' to toggle the event.
+
 2. Misc:
-	- Fixed ARENA Season 12 rule from 1 (point system) to 2 (voting system)
-	- Added ARENA-related startup flags to exg.ts (arena room id input, online/local match rule voting system, etc.)
-	- Updated system backgrounds list in customize\_data\_ext.json (forgot to update it as it's manual, sorry...)
-	- Added new APRIL\_RAINBOW\_LINE\_ACTIVE to startup flags toggle list. Don't know what it does currently.
-		- Edit: Enables April Fools 2024 Effect: Rainbow lasers. Type V-RAN on search bar to enable.
-	- Added lounge code (checks for active matches to toggle 'matching' indicator in lounge)
-	- Fixes to profile customization WebUI js where 1: subbg selection doesn't match the one previewed, and 2: it provides the incorrect subbg file format. 
-	- Some online matchmaking experimentations (still can't make it work though)
-
-
-## fork-6.0.2.9
-
-### New:
-
-1. Main:
-	- Updated events.json to add weeks 4 & 5 of BPL event songs.
-	- Added Premium Generator (Nekomata Okayu) set.
-	- Updated licensed songs list (Okayu songs)
-2. Misc:
-	- Added crew id 149 to CHARACTER\_IGNORE\_DISABLE
-	- Tweaked Premium Generator odds (1% chance for a crew is a bit unfair lol, changed to 5%)
-
-
-## fork-6.0.2.8d
-
-### New:
-
-1. Main:
-	- Updated events.json to add startup flags for Valentines Day 2024 and White Day 2024.
+	- Updated Achievements list.
 
 
 ### Todo:
 
 1. Figure out how to use image (png) files to appear in information/news popup.
 2. More work on online matchmaking (idk if this is possible)
+3. Implement pro_team_id setting.

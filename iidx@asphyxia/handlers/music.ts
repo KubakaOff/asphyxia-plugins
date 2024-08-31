@@ -1,8 +1,9 @@
-import { IDtoRef, Base64toNumArray, GetVersion, OldMidToNewMid, NewMidToOldMid, ReftoProfile, ReftoPcdata, ClidToPlaySide, ReftoQPRO, NumArrayToString, OldMidToVerMid, HextoBase64 } from "../util";
+import { IDtoRef, Base64toNumArray, GetVersion, OldMidToNewMid, NewMidToOldMid, ReftoProfile, ReftoPcdata, ClidToPlaySide, ReftoQPRO, NumArrayToString, OldMidToVerMid, HextoBase64, NumArraytoBase64, NumArraytoHex } from "../util";
 import { score, score_top } from "../models/score";
 import { profile } from "../models/profile";
 import { shop_data } from "../models/shop";
 import { tutorial } from "../models/tutorial";
+import { badge } from "../models/badge";
 
 export const musicgetrank: EPR = async (info, data, send) => {
   const version = GetVersion(info);
@@ -25,7 +26,7 @@ export const musicgetrank: EPR = async (info, data, send) => {
   let m = [], top = [], b = [], t = [];
   let score_data: number[];
   let indices, temp_mid = 0;
-  if (version == 15) {
+  if (version == 14 || version == 15) {
     let result = {
       r: [], // v - (-1, beginner/-2, tutorial) //
     };
@@ -33,12 +34,13 @@ export const musicgetrank: EPR = async (info, data, send) => {
     music_data.forEach((res: score) => {
       temp_mid = NewMidToOldMid(res.mid);
       let verMid = OldMidToVerMid(temp_mid);
-      let rank_id = -1;
 
       // TODO:: determine whether use rid,dj_level from music.reg or make a database that has max exscore of all songs for rid //
       if (verMid[0] > version) return;
       for (let a = 0; a < 3; a++) {
         if (res.esArray[indices[a]] == 0) continue;
+        let rank_id = _.isNil(res.rArray) ? -1 : res.rArray[indices[a]];
+
         result.r.push(
           K.ITEM("str", NumArrayToString(
             [7, 4, 13, 3, 3],
@@ -316,9 +318,9 @@ export const musicappoint: EPR = async (info, data, send) => {
         option = music_data.optArray[clid];
         option2 = music_data.opt2Array[clid];
       }
-
-      mydata = Base64toNumArray(music_data[clid]);
     }
+
+    if (version < 16) mydata = K.ITEM("str", NumArraytoHex(Base64toNumArray(music_data[clid])));
     else mydata = K.ITEM("bin", Base64toNumArray(music_data[clid]));
   }
 
@@ -354,12 +356,23 @@ export const musicappoint: EPR = async (info, data, send) => {
         });
         if (_.isNaN(other_pcdata) || _.isNil(other_musicdata)) break;
 
-        sdata = K.ITEM("bin", Base64toNumArray(other_musicdata[clid]), {
-          score: String(other_musicdata.esArray[clid]),
-          pid: String(other_profile[1]),
-          name: String(other_profile[0]),
-          riidxid: String(other_profile[2])
-        });
+        if (version < 16) {
+          sdata = K.ITEM("str", NumArraytoHex(Base64toNumArray(other_musicdata[clid])), {
+            score: String(other_musicdata.esArray[clid]),
+            pid: String(other_profile[1]),
+            name: String(other_profile[0]),
+            riidxid: String(other_profile[2])
+          });
+        }
+        else {
+          sdata = K.ITEM("bin", Base64toNumArray(other_musicdata[clid]), {
+            score: String(other_musicdata.esArray[clid]),
+            pid: String(other_profile[1]),
+            name: String(other_profile[0]),
+            riidxid: String(other_profile[2])
+          });
+        }
+        
         break;
 
       default:
@@ -393,23 +406,23 @@ export const musicappoint: EPR = async (info, data, send) => {
         ...other_data,
         gauge_data: K.ITEM("bin", Base64toNumArray(other_musicdata[clid + 10]))
       };
+    }
 
-      if (_.isNil(sdata) && !_.isNil(mydata)) {
-        result = {
-          "@attr": { my_option: option, my_option2: option2 },
-          mydata,
-          my_gauge_data: K.ITEM("bin", my_gauge_data),
-        };
-      }
-      if (_.isNil(mydata) && !_.isNil(sdata)) result = { sdata };
-      if (!_.isNil(mydata) && !_.isNil(sdata)) {
-        result = {
-          "@attr": { my_option: option, my_option2: option2 }, // CastHour //
-          mydata,
-          my_gauge_data: K.ITEM("bin", my_gauge_data),
-          sdata,
-        };
-      }
+    if (_.isNil(sdata) && !_.isNil(mydata)) {
+      result = {
+        "@attr": { my_option: option, my_option2: option2 },
+        mydata,
+        my_gauge_data: K.ITEM("bin", my_gauge_data),
+      };
+    }
+    if (_.isNil(mydata) && !_.isNil(sdata)) result = { sdata };
+    if (!_.isNil(mydata) && !_.isNil(sdata)) {
+      result = {
+        "@attr": { my_option: option, my_option2: option2 }, // CastHour //
+        mydata,
+        my_gauge_data: K.ITEM("bin", my_gauge_data),
+        sdata,
+      };
     }
   }
   else {
@@ -423,12 +436,16 @@ export const musicappoint: EPR = async (info, data, send) => {
 
 export const musicreg: EPR = async (info, data, send) => {
   const version = GetVersion(info);
+  const refid = await IDtoRef(parseInt($(data).attr().iidxid));
+
   const shop_data = await DB.FindOne<shop_data>({
     collection: "shop_data",
   });
+  const profile = await DB.FindOne<profile>(refid, {
+    collection: "profile",
+  });
 
   // wid, oppid, opname, opt, opt2, pside, nocnt, anum //
-  const refid = await IDtoRef(parseInt($(data).attr().iidxid));
   const pgnum = parseInt($(data).attr().pgnum);
   const gnum = parseInt($(data).attr().gnum);
   const mnum = parseInt($(data).attr().mnum);
@@ -458,17 +475,13 @@ export const musicreg: EPR = async (info, data, send) => {
     mid: mid,
   });
 
-  const profile = await DB.FindOne<profile>(refid, {
-    collection: "profile",
-  });
-
   // SPN -> DPA [0~5] -> LINCLE //
   // SPB -> DPL [0~9] -> Heroic Verse //
   let pgArray = Array<number>(10).fill(0); // PGREAT //
   let gArray = Array<number>(10).fill(0); // GREAT //
   let mArray = Array<number>(10).fill(0); // MISS //
   let cArray = Array<number>(10).fill(0); // CLEAR FLAGS //
-  let rArray = Array<number>(10).fill(0); // RANK ID //
+  let rArray = Array<number>(10).fill(-1); // RANK ID //
   let esArray = Array<number>(10).fill(0); // EXSCORE //
   let optArray = Array<number>(10).fill(0); // USED OPTION (CastHour) //
   let opt2Array = Array<number>(10).fill(0); // USED OPTION (CastHour) //
@@ -478,13 +491,11 @@ export const musicreg: EPR = async (info, data, send) => {
   else if (!_.isNil($(data).attr().dj_level)) rid = parseInt($(data).attr().dj_level);
   if (rid > -1) console.log(`[music.reg] rank_id : ${rid}`);
 
-  if (version == 15) ghost = HextoBase64($(data).str("ghost"));
-  else ghost = $(data).buffer("ghost").toString("base64");
-
-  console.log(ghost);
+  if (version == 14 || version == 15) ghost = HextoBase64($(data).str("ghost"));
+  else ghost = NumArraytoBase64($(data).buffer("ghost"));
   
   if (version >= 27) {
-    ghost_gauge = $(data).buffer("ghost_gauge").toString("base64");
+    ghost_gauge = NumArraytoBase64($(data).buffer("ghost_gauge"));
     style = parseInt($(data).element("music_play_log").attr().play_style);
 
     if (version >= 29) {
@@ -607,6 +618,59 @@ export const musicreg: EPR = async (info, data, send) => {
       }
     }
   );
+
+  if (!_.isNil($(data).element("badge"))) {
+    if (!_.isNil($(data).attr("badge").djLevel_badge_flg_id)) {
+      await DB.Upsert<badge>(
+        refid,
+        {
+          collection: "badge",
+          version: version,
+          category_name: "djLevel",
+          flg_id: parseInt($(data).attr("badge").djLevel_badge_flg_id),
+        },
+        {
+          $set: {
+            flg: parseInt($(data).attr("badge").djLevel_badge_flg),
+          }
+        }
+      );
+    }
+
+    if (!_.isNil($(data).attr("badge").clear_badge_flg_id)) {
+      await DB.Upsert<badge>(
+        refid,
+        {
+          collection: "badge",
+          version: version,
+          category_name: "clear",
+          flg_id: parseInt($(data).attr("badge").clear_badge_flg_id),
+        },
+        {
+          $set: {
+            flg: parseInt($(data).attr("badge").clear_badge_flg),
+          }
+        }
+      );
+    }
+
+    if (!_.isNil($(data).attr("badge").rivalChallenge_badge_flg)) {
+      await DB.Upsert<badge>(
+        refid,
+        {
+          collection: "badge",
+          version: version,
+          category_name: "rivalChallenge",
+          flg_id: 0,
+        },
+        {
+          $set: {
+            flg: parseInt($(data).attr("badge").rivalChallenge_badge_flg),
+          }
+        }
+      );
+    }
+  }
 
   let shop_rank = -1, shop_rank_data = [];
   let scores: any[][];
@@ -841,7 +905,7 @@ export const musiccrate: EPR = async (info, data, send) => {
     }
 
     let indices = [1, 2, 3, 6, 7, 8];
-    if (version == 15) {
+    if (version == 14 || version == 15) {
       let verMid = OldMidToVerMid(parseInt(key));
 
       let str = cltype == 0 ?
@@ -864,7 +928,7 @@ export const musiccrate: EPR = async (info, data, send) => {
     }
   }
 
-  if (version == 15) result = { cdata };
+  if (version == 14 || version == 15) result = { cdata };
   else result = { c };
 
   return send.object(result);
