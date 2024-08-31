@@ -82,7 +82,7 @@ Please check out the original repositories and download from them (for example 2
 - REFLEC BEAT 悠久のリフレシア
 
 ### SOUND VOLTEX
-- SOUND VOLTEX EXCEED GEAR (2024022000, others are untested)
+- SOUND VOLTEX EXCEED GEAR (2024080500, others are untested)
 
 
 
